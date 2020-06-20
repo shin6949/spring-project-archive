@@ -26,16 +26,15 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
-
-        return "registration";
+        return "register";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return "register";
         }
 
         userService.save(userForm);
@@ -47,11 +46,13 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
+        if (error != null) {
+            model.addAttribute("error", "ID 또는 비밀번호가 유효하지 않습니다.");
+        }
 
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
+        if (logout != null) {
+            model.addAttribute("message", "로그아웃이 완료되었습니다.");
+        }
 
         return "login";
     }
