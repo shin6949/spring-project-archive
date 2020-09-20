@@ -13,8 +13,8 @@ import java.util.Map;
 
 @Repository
 public class MemberRoleDao {
-    private NamedParameterJdbcTemplate jdbc;
-    private RowMapper<MemberRole> rowMapper = BeanPropertyRowMapper.newInstance(MemberRole.class);
+    private final NamedParameterJdbcTemplate jdbc;
+    private final RowMapper<MemberRole> rowMapper = BeanPropertyRowMapper.newInstance(MemberRole.class);
 
     public MemberRoleDao(DataSource dataSource) {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);

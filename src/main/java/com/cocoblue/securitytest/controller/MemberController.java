@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping(path = "/members")
 public class MemberController {
@@ -39,9 +41,19 @@ public class MemberController {
         return "redirect:/members/welcome";
     }
 
+    @RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
+    @ResponseBody
+    public String emailCheck(Member member) throws Exception {
+        if(memberService.checkEmail(member.getEmail())) {
+            // 중복된 이메일이 존재하지 않으면 true
+           return "true";
+        } else {
+            return "false";
+        }
+    }
+
     @GetMapping("/welcome")
     public String welcome() {
         return "members/welcome";
     }
-
 }

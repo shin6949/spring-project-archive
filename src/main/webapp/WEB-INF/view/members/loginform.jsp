@@ -9,23 +9,25 @@
 </head>
 <body>
 <div>
+    <h1>로그인</h1><br>
     <c:if test="${param.loginfail eq 1}">
         <h3>로그인에 실패하였습니다.</h3><br>
     </c:if>
     <div>
         <form method="post" action="/authenticate">
             <div>
-                <label>ID</label>
-                <input type="text" name="userId">
+                <label>
+                    ID
+                    <input type="text" name="userId">
+                </label>
             </div>
             <div>
                 <label>
-                    암호
+                    비밀번호
                     <input type="password" name="password">
                 </label>
             </div>
             <div>
-                <label></label>
                 <input type="submit" value="로그인">
             </div>
         </form>

@@ -50,4 +50,9 @@ public class MemberServiceImpl implements MemberService {
             memberDao.insertUser(member);
         }
     }
+
+    @Override
+    public Boolean checkEmail(String email) {
+        return memberDao.checkEmail(email);
+    }
 }

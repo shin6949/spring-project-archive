@@ -22,6 +22,11 @@ public class Member {
         this.email = email;
     }
 
+    public Member(String email) {
+        this();
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }

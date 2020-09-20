@@ -12,14 +12,15 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
 public class MemberDao {
-    private NamedParameterJdbcTemplate jdbc;
-    private RowMapper<Member> rowMapper = BeanPropertyRowMapper.newInstance(Member.class);
-    private SimpleJdbcInsert insertAction;
-    private SimpleJdbcInsert insertRoleAction;
+    private final NamedParameterJdbcTemplate jdbc;
+    private final RowMapper<Member> rowMapper = BeanPropertyRowMapper.newInstance(Member.class);
+    private final SimpleJdbcInsert insertAction;
+    private final SimpleJdbcInsert insertRoleAction;
 
     public MemberDao(DataSource dataSource) {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
@@ -50,5 +51,14 @@ public class MemberDao {
         long result = insertAction.executeAndReturnKey(params).longValue();
         SqlParameterSource roleParams = new BeanPropertySqlParameterSource(new MemberRole(result, "ROLE_ADMIN"));
         insertRoleAction.execute(roleParams);
+    }
+
+    public Boolean checkEmail(String email) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", email);
+
+        List<Map<String, Object>> queryResult = jdbc.queryForList(MemberDaoSqls.USER_COUNT_BY_EMAIL, map);
+
+        return queryResult.isEmpty();
     }
 }
