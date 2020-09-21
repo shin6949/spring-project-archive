@@ -7,10 +7,14 @@
     <title>회원 가입</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <SCRIPT type="text/javascript">
-        function fn_emailCheck() {
-            console.log("fn_emailCheck Called")
+        function fn_emailCheck(obj) {
+            if(obj.email.value === "") {
+                alert("이메일을 입력하세요.");
+                return false
+            }
+
             const form = {
-                email: $("#email").val()
+                email: obj.email.value
             }
 
             $.ajax({
@@ -21,12 +25,9 @@
 
                 success : function(data){
                     if(data) {
-                        $("#emailCheck").attr("value", "Y");
-                        const emailInput = document.getElementById('email');
-                        emailInput.readOnly = true;
-
-                        const btn = document.getElementById('emailCheck');
-                        btn.disabled = true;
+                        obj.emailChk.setAttribute("value", "Y")
+                        obj.email.readOnly = true;
+                        obj.emailChk.disabled = true;
 
                         alert("사용가능한 아이디입니다.");
                     } else {
@@ -39,18 +40,19 @@
 
     <!-- 중복 확인, 비밀번호 일치 확인용 함수 -->
     <script type="text/javascript">
-        $("form").submit(function() {
-            if($("emailCheck").getAttribute("value") === "N") {
+        function isValidate(obj) {
+            if(obj.emailChk.getAttribute("value") === "N") {
                 alert("이메일 중복 확인을 수행하세요.")
+                return false;
             }
-        })
-    </script>
 
-    <!-- VAL 테스트 -->
-    <script type="text/javascript">
-        function test() {
-            console.log($("input_name").val())
-            console.log($("input_pwd").val())
+            if(obj.password.value !== obj.password_re.value) {
+                obj.password.focus()
+                alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.")
+                return false;
+            }
+
+            return true;
         }
     </script>
 </head>
@@ -58,15 +60,16 @@
 <div>
     <h1>회원 가입 폼</h1>
     <div>
-        <form method="post" action="join">
+        <form method="post" action="insert" onsubmit="return isValidate(this);">
             <div>
                 <label>이름</label>
                 <input type="text" name="name" required>
             </div>
             <div>
-                <label class="control-label" for="email">이메일</label>
-                <input class="form-control" type="text" id="email" name="email" required/>
-                <button class="idChk" type="button" id="emailCheck" onclick="fn_emailCheck();" value="N">중복확인</button>
+                <label>이메일</label>
+                <input type="text" name="email" required/>
+                <button name="emailChk" type="button" onclick="fn_emailCheck(this.form);" value="N">중복확인</button>
+                <label>아이디로 사용됩니다.</label>
             </div>
             <div>
                 <label>비밀번호</label>
@@ -74,10 +77,9 @@
             </div>
             <div>
                 <label>비밀번호 확인</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password_re" required>
             </div>
             <div>
-                <button class="idChk" type="button" onclick="test();" value="N">TEST</button>
                 <input type="submit" value="회원가입">
             </div>
         </form>

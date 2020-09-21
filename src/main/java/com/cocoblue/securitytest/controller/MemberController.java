@@ -6,8 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping(path = "/members")
 public class MemberController {
@@ -19,23 +17,18 @@ public class MemberController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/loginform")
-    public String loginform() {
-        return "members/loginform";
-    }
-
     @GetMapping("/loginerror")
     public String loginerror(@RequestParam("login_error") String loginError) {
         return "members/loginerror";
     }
 
-    @GetMapping("/joinform")
-    public String joinform() {
-        return "members/joinform";
+    @GetMapping("/register")
+    public String register() {
+        return "members/register";
     }
 
-    @PostMapping("/join")
-    public String join(@ModelAttribute Member member) {
+    @PostMapping("/insert")
+    public String insert(@ModelAttribute Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberService.addMember(member, false);
         return "redirect:/members/welcome";
