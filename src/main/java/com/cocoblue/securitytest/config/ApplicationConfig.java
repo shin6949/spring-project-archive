@@ -18,10 +18,10 @@ public class ApplicationConfig implements TransactionManagementConfigurer {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(DbConfig.driverClassName);
-        dataSource.setUrl(DbConfig.url);
-        dataSource.setUsername(DbConfig.username);
-        dataSource.setPassword(DbConfig.password);
+        dataSource.setDriverClassName(DbConfig.DRIVERCLASSNAME);
+        dataSource.setUrl(DbConfig.URL);
+        dataSource.setUsername(DbConfig.USERNAME);
+        dataSource.setPassword(DbConfig.PASSWORD);
 
         return dataSource;
     }
