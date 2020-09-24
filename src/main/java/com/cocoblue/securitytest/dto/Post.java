@@ -1,60 +1,125 @@
 package com.cocoblue.securitytest.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Post {
-    private Long number;
+    private Long id;
     private String title;
     private String content;
-    private Long writer;
-    private Date write_time;
-    private Long board_id;
-    private Long view_number;
+    private Long writerId;
+    private LocalDateTime writeTime;
+    private Long boardId;
+    private Long viewNumber;
+    private String writerName;
+    private String boardName;
 
-    public Long getNumber(){
-        return number;
+    // Default Constructor
+    public Post() {
     }
-    public void setNumber(Long number){
-        this.number=number;
+
+    // Original Post Constructor
+    public Post(Long id, String title, String content, Long writerId, LocalDateTime writeTime, Long boardId, Long viewNumber) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.writerId = writerId;
+        this.writeTime = writeTime;
+        this.boardId = boardId;
+        this.viewNumber = viewNumber;
     }
-    public String getTitle(){
+
+    // Post Constructor for Post List
+    public Post(Long id, String title, String content, Long writerId, LocalDateTime writeTime, Long boardId, Long viewNumber, String writerName, String boardName) {
+        this(id, title, content, writerId, writeTime, boardId, viewNumber);
+        this.writerName = writerName;
+        this.boardName = boardName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
         return title;
     }
-    public void setTitle(String title){
-        this.title=title;
+
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public String getContent(){
+
+    public String getContent() {
         return content;
     }
-    public void setContent(String content){
-        this.content=content;
+
+    public void setContent(String content) {
+        this.content = content;
     }
-    public Long getWriter(){
-        return writer;
+
+    public Long getWriterId() {
+        return writerId;
     }
-    public void setWriter(Long writer){
-        this.writer=writer;
+
+    public void setWriterId(Long writerId) {
+        this.writerId = writerId;
     }
-    public Date getWrite_time(){
-        return write_time;
+
+    public LocalDateTime getWriteTime() {
+        return writeTime;
     }
-    public void setWrite_time(Date write_time){
-        this.write_time=write_time;
+
+    public void setWriteTime(LocalDateTime writeTime) {
+        this.writeTime = writeTime;
     }
-    public Long getBoard_id(){
-        return board_id;
+
+    public Long getBoardId() {
+        return boardId;
     }
-    public void setBoard_id(Long board_id) {
-        this.board_id = board_id;
+
+    public void setBoardId(Long boardId) {
+        this.boardId = boardId;
     }
-    public Long getView_number(){
-        return view_number;
+
+    public Long getViewNumber() {
+        return viewNumber;
     }
-    public void setView_number(Long view_number) {
-        this.view_number = view_number;
+
+    public void setViewNumber(Long viewNumber) {
+        this.viewNumber = viewNumber;
     }
-    public String toString(){
-        return "Post [number=" + number + ", title=" + title + ", content=" + content +
-                ", writer=" + writer + ", writer_time" + write_time + ", view_number" + view_number + "]";
+
+    public String getWriterName() {
+        return writerName;
     }
+
+    public void setWriterName(String writerName) {
+        this.writerName = writerName;
+    }
+
+    public String getBoardName() {
+        return boardName;
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", writerId=" + writerId +
+                ", writeTime=" + writeTime +
+                ", boardId=" + boardId +
+                ", viewNumber=" + viewNumber +
+                ", writerName='" + writerName + '\'' +
+                ", boardName='" + boardName + '\'' +
+                '}';
+    }
+
 }

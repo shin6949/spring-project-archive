@@ -1,30 +1,35 @@
 package com.cocoblue.securitytest.dao;
 
 import com.cocoblue.securitytest.dto.Post;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Repository
 public class PostDao {
-    private PostDao() { }
-    private static PostDao dao = new PostDao();
-    public static PostDao getInstance() { return dao; }
-    public List<Post> selectAll() {
-        List<Post> list = new ArrayList<Post>();
-        return list;
-    }
-    public void updateview_number(Long number) {
+    private final NamedParameterJdbcTemplate jdbc;
+    private final RowMapper<Post> rowMapper = BeanPropertyRowMapper.newInstance(Post.class);
+    private final SimpleJdbcInsert insertAction;
 
+    public PostDao(DataSource dataSource) {
+        this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+        this.insertAction = new SimpleJdbcInsert(dataSource)
+                .withTableName("post")
+                .usingGeneratedKeyColumns("id");
     }
-    public Post selectnumber(Long number) {
-        return Post;
-    }
-    public void insert(Post post) {
 
-    }
-    public void update(Post post) {
+    public List<Post> getPostsAll(String boardName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardName", boardName);
 
-    }
-    public void delete(Long number) {
-
+        return jdbc.query(PostDaoSqls.SELECT_ALL_BY_BOARD_NAME, map, rowMapper);
     }
 }

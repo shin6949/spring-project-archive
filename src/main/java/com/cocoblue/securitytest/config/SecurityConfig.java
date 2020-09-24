@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/main", "/members/loginerror", "/members/emailCheck", "/members/register", "/members/insert", "/members/welcome").permitAll()
+                .antMatchers("/", "/main", "board/posts", "/members/loginerror", "/members/emailCheck", "/members/register", "/members/insert", "/members/welcome").permitAll()
                 .antMatchers("/test").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/main");
+                .logoutSuccessUrl("/board/posts");
     }
 
     @Bean

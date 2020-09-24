@@ -16,20 +16,13 @@ public class MainController {
     @ResponseBody
     public String main() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth.getPrincipal().toString().equals("anonymousUser")) {
-            System.out.println(auth.getPrincipal().toString());
-        } else {
-            System.out.println(auth.toString());
-            System.out.println(auth.getName());
-            System.out.println(auth.getDetails());
-        }
 
         return "main page";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "members/loginform";
+        return "members/login";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -39,7 +32,6 @@ public class MainController {
         return "TEST PAGE";
     }
 
-    @Secured({"ROLE_ADMIN"})
     @RequestMapping("/securepage")
     @ResponseBody
     public String securitypage() {

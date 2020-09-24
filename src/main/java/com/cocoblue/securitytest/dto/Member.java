@@ -1,18 +1,18 @@
 package com.cocoblue.securitytest.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Member {
     private Long id;
     private String name;
     private String password;
     private String email;
-    private Date createDate;
-    private Date modifyDate;
+    private LocalDate createDate;
+    private LocalDate modifyDate;
 
     public Member() {
-        createDate = new Date();
-        modifyDate = new Date();
+        createDate = LocalDate.now();
+        modifyDate = LocalDate.now();
     }
 
     public Member(Long id, String name, String password, String email) {
@@ -59,19 +59,19 @@ public class Member {
         this.email = email;
     }
 
-    public Date getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
-    public Date getModifyDate() {
+    public LocalDate getModifyDate() {
         return modifyDate;
     }
 
-    public void setModifyDate(Date modifyDate) {
+    public void setModifyDate(LocalDate modifyDate) {
         this.modifyDate = modifyDate;
     }
 }

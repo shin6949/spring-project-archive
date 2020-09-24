@@ -3,33 +3,20 @@ package com.cocoblue.securitytest.service;
 import java.util.List;
 import com.cocoblue.securitytest.dto.Post;
 import com.cocoblue.securitytest.dao.PostDao;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class PostServiceImpl implements PostService {
-    @Override
-    public List<Post> listAll() {
-        return PostDao.getInstance().selectAll();
+    private final PostDao postDao;
+
+    public PostServiceImpl(PostDao postDao) {
+        this.postDao = postDao;
     }
 
     @Override
-    public void insert(Post post) {
-        PostDao.getInstance().insert(post);
-    }
-
-    @Override
-    public Post read(Long number) {
-        // 조회 시 조회수 증가
-        PostDao dao = PostDao.getInstance();
-        dao.updateview_number(number);
-        return dao.selectnumber(number);
-    }
-
-    @Override
-    public void modify(Post post) {
-        PostDao.getInstance().update(post);
-    }
-
-    @Override
-    public void delete(Long number) {
-        PostDao.getInstance().delete(number);
+    @Transactional
+    public List<Post> getPostsAll(String boardName) {
+        return postDao.getPostsAll(boardName);
     }
 }
