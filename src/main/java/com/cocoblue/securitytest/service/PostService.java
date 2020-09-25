@@ -10,4 +10,5 @@ public interface PostService {
     public Post getPost(String id);
     public List<Comment> getComments(String post_id);
     public Boolean writePost(Post post);
+    public void increaseViewNum(String post_id);
 }

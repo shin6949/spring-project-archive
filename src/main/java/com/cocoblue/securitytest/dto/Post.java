@@ -1,6 +1,7 @@
 package com.cocoblue.securitytest.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Post {
     private long id;
@@ -8,6 +9,7 @@ public class Post {
     private String content;
     private long writerId;
     private LocalDateTime writeTime;
+    private String writeTimeString;
     private long boardId;
     private long viewNumber;
     private String writerName;
@@ -73,6 +75,8 @@ public class Post {
 
     public void setWriteTime(LocalDateTime writeTime) {
         this.writeTime = writeTime;
+        // View에서 LocalDateTime를 String로 변환하는데 애로사항이 있어 클래스에서 먼저 설정함.
+        this.setWriteTimeString(writeTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
     public long getBoardId() {
@@ -107,6 +111,14 @@ public class Post {
         this.boardName = boardName;
     }
 
+    public String getWriteTimeString() {
+        return writeTimeString;
+    }
+
+    public void setWriteTimeString(String writeTimeString) {
+        this.writeTimeString = writeTimeString;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
@@ -115,6 +127,7 @@ public class Post {
                 ", content='" + content + '\'' +
                 ", writerId=" + writerId +
                 ", writeTime=" + writeTime +
+                ", writeTimeString='" + writeTimeString + '\'' +
                 ", boardId=" + boardId +
                 ", viewNumber=" + viewNumber +
                 ", writerName='" + writerName + '\'' +

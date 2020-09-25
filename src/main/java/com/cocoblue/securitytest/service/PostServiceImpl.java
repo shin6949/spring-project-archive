@@ -36,4 +36,9 @@ public class PostServiceImpl implements PostService {
     public Boolean writePost(Post post) {
         return postDao.writePost(post);
     }
+
+    @Override
+    public void increaseViewNum(String post_id) {
+        postDao.increaseViewNum(post_id);
+    }
 }

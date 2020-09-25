@@ -14,4 +14,6 @@ public class PostDaoSqls {
             "JOIN member as m\n" +
             "ON p.writer_id = m.id\n" +
             "WHERE p.id = :id";
+
+    public static String UPDATE_VIEW_NUMBER = "UPDATE post SET view_number = view_number + 1 WHERE id = :postId";
 }

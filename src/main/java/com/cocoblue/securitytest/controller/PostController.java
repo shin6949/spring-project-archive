@@ -1,6 +1,8 @@
 package com.cocoblue.securitytest.controller;
 
+import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.dto.Post;
+import com.cocoblue.securitytest.service.CommentService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -8,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.cocoblue.securitytest.service.PostService;
 
-import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,9 +17,11 @@ import java.util.List;
 @RequestMapping(path = "/board")
 public class PostController {
     PostService postService;
+    CommentService commentService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @RequestMapping("/posts")
@@ -32,6 +35,16 @@ public class PostController {
     public String getPost(@PathVariable String id, Model model) {
         Post post = postService.getPost(id);
         model.addAttribute("post", post);
+        long commentCount = commentService.getCommentCount(id);
+        model.addAttribute("comment_count", commentCount);
+        model.addAttribute("postId", id);
+
+        // 조회수 증가
+        postService.increaseViewNum(id);
+
+        if(commentCount != 0) {
+            model.addAttribute("comments", commentService.getComments(id));
+        }
 
         return "posts/read";
     }
@@ -49,13 +62,26 @@ public class PostController {
         post.setViewNumber(0);
         post.setWriteTime(LocalDateTime.now());
 
-        if(postService.writePost(post)) {
-            return "redirect:/board/posts";
-        } else {
-            return "<script>"
-                    + "alert(\"서버 오류로 업로드하지 못했습니다.\");"
-                    + "</script>";
-        }
+        postService.writePost(post);
+        return "redirect:/board/posts";
     }
 
+    @RequestMapping("read/insertcomment/{postId}")
+    public String insertComment(@ModelAttribute Comment comment, @PathVariable long postId, Model model) {
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
+            model.addAttribute("status", "login");
+            return "posts/commentstatus";
+        }
+
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        comment.setWriterId(customUserDetails.getId());
+        comment.setPostId(postId);
+
+        if(commentService.writeComment(comment)) {
+            model.addAttribute("status", "success");
+        } else {
+            model.addAttribute("status", "server");
+        }
+        return "posts/commentstatus";
+    }
 }

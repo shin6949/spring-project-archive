@@ -24,7 +24,7 @@
             <td>${row.boardName}</td>
             <td><a href="read/${row.id}">${row.title}</a></td>
             <td>${row.writerName}</td>
-            <td>${row.writeTime}</td>
+            <td>${row.writeTimeString}</td>
             <td>${row.viewNumber}</td>
         </tr>
     </c:forEach>
