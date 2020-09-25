@@ -5,6 +5,7 @@ import com.cocoblue.securitytest.config.SecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,11 +15,4 @@ public class MemberDaoTest {
     @Autowired
     MemberDao memberDao;
 
-    // 중복 ID 체크 테스트
-    @Test
-    public void getMemberCount() throws Exception {
-        String email = "cocoblue@kakao.com";
-
-        System.out.println(memberDao.checkEmail(email));
-    }
 }

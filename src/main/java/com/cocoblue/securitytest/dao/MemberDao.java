@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -41,15 +43,15 @@ public class MemberDao {
 
     public void insertUser(Member member) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(member);
-        long result = insertAction.executeAndReturnKey(params).longValue();
-        SqlParameterSource roleParams = new BeanPropertySqlParameterSource(new MemberRole(result, "ROLE_USER"));
+        long insertUserId = insertAction.executeAndReturnKey(params).longValue();
+        SqlParameterSource roleParams = new BeanPropertySqlParameterSource(new MemberRole(insertUserId, "ROLE_USER"));
         insertRoleAction.execute(roleParams);
     }
 
     public void insertAdmin(Member member) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(member);
-        long result = insertAction.executeAndReturnKey(params).longValue();
-        SqlParameterSource roleParams = new BeanPropertySqlParameterSource(new MemberRole(result, "ROLE_ADMIN"));
+        long insertUserId = insertAction.executeAndReturnKey(params).longValue();
+        SqlParameterSource roleParams = new BeanPropertySqlParameterSource(new MemberRole(insertUserId, "ROLE_ADMIN"));
         insertRoleAction.execute(roleParams);
     }
 

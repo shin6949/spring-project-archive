@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public UserEntity getUser(String loginUserId) {
         Member member = memberDao.getMemberByEmail(loginUserId);
-        return new UserEntity(member.getEmail(), member.getPassword());
+        return new UserEntity(member.getId(), member.getEmail(), member.getPassword());
     }
 
     @Override
@@ -43,8 +43,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void addMember(Member member, boolean b) {
-        if (b) {
+    public void addMember(Member member, boolean admin) {
+        if (admin) {
             memberDao.insertAdmin(member);
         } else {
             memberDao.insertUser(member);

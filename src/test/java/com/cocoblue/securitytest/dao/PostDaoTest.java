@@ -14,7 +14,8 @@ public class PostDaoTest {
     PostDao postDao;
 
     @Test
-    public void getPostsAll() throws Exception {
-        System.out.println(postDao.getPostsAll("자유 게시판"));
+    public void getPostTest() {
+        System.out.println(postDao.getPost("1"));
     }
+
 }

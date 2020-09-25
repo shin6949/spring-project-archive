@@ -1,31 +1,31 @@
 package com.cocoblue.securitytest.dto;
 
 public class MemberRole {
-    private Long id;
-    private Long memberId;
+    private long id;
+    private long memberId;
     private String roleName;
 
     public MemberRole() {
     }
 
-    public MemberRole(Long memberId, String roleName) {
+    public MemberRole(long memberId, String roleName) {
         this.memberId = memberId;
         this.roleName = roleName;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getMemberId() {
+    public long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Long memberId) {
+    public void setMemberId(long memberId) {
         this.memberId = memberId;
     }
 
@@ -37,4 +37,12 @@ public class MemberRole {
         this.roleName = roleName;
     }
 
+    @Override
+    public String toString() {
+        return "MemberRole{" +
+                "id=" + id +
+                ", memberId=" + memberId +
+                ", roleName='" + roleName + '\'' +
+                '}';
+    }
 }

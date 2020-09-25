@@ -1,6 +1,8 @@
 package com.cocoblue.securitytest.service;
 
 import java.util.List;
+
+import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.dto.Post;
 import com.cocoblue.securitytest.dao.PostDao;
 import org.springframework.stereotype.Service;
@@ -18,5 +20,20 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public List<Post> getPostsAll(String boardName) {
         return postDao.getPostsAll(boardName);
+    }
+
+    @Override
+    public Post getPost(String id) {
+        return postDao.getPost(id);
+    }
+
+    @Override
+    public List<Comment> getComments(String post_id) {
+        return null;
+    }
+
+    @Override
+    public Boolean writePost(Post post) {
+        return postDao.writePost(post);
     }
 }

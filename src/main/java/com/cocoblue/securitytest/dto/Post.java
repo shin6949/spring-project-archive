@@ -3,13 +3,13 @@ package com.cocoblue.securitytest.dto;
 import java.time.LocalDateTime;
 
 public class Post {
-    private Long id;
+    private long id;
     private String title;
     private String content;
-    private Long writerId;
+    private long writerId;
     private LocalDateTime writeTime;
-    private Long boardId;
-    private Long viewNumber;
+    private long boardId;
+    private long viewNumber;
     private String writerName;
     private String boardName;
 
@@ -18,7 +18,7 @@ public class Post {
     }
 
     // Original Post Constructor
-    public Post(Long id, String title, String content, Long writerId, LocalDateTime writeTime, Long boardId, Long viewNumber) {
+    public Post(long id, String title, String content, long writerId, LocalDateTime writeTime, long boardId, long viewNumber) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -29,17 +29,17 @@ public class Post {
     }
 
     // Post Constructor for Post List
-    public Post(Long id, String title, String content, Long writerId, LocalDateTime writeTime, Long boardId, Long viewNumber, String writerName, String boardName) {
+    public Post(long id, String title, String content, long writerId, LocalDateTime writeTime, long boardId, long viewNumber, String writerName, String boardName) {
         this(id, title, content, writerId, writeTime, boardId, viewNumber);
         this.writerName = writerName;
         this.boardName = boardName;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -59,11 +59,11 @@ public class Post {
         this.content = content;
     }
 
-    public Long getWriterId() {
+    public long getWriterId() {
         return writerId;
     }
 
-    public void setWriterId(Long writerId) {
+    public void setWriterId(long writerId) {
         this.writerId = writerId;
     }
 
@@ -75,19 +75,19 @@ public class Post {
         this.writeTime = writeTime;
     }
 
-    public Long getBoardId() {
+    public long getBoardId() {
         return boardId;
     }
 
-    public void setBoardId(Long boardId) {
+    public void setBoardId(long boardId) {
         this.boardId = boardId;
     }
 
-    public Long getViewNumber() {
+    public long getViewNumber() {
         return viewNumber;
     }
 
-    public void setViewNumber(Long viewNumber) {
+    public void setViewNumber(long viewNumber) {
         this.viewNumber = viewNumber;
     }
 
@@ -121,5 +121,4 @@ public class Post {
                 ", boardName='" + boardName + '\'' +
                 '}';
     }
-
 }

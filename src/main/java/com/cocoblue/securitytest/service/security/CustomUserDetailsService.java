@@ -24,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         CustomUserDetails customUserDetails = new CustomUserDetails();
+        customUserDetails.setId(customUser.getId());
         customUserDetails.setUsername(customUser.getLoginUserId());
         customUserDetails.setPassword(customUser.getPassword());
 

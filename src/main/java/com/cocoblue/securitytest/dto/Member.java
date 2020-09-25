@@ -3,7 +3,7 @@ package com.cocoblue.securitytest.dto;
 import java.time.LocalDate;
 
 public class Member {
-    private Long id;
+    private long id;
     private String name;
     private String password;
     private String email;
@@ -15,11 +15,23 @@ public class Member {
         modifyDate = LocalDate.now();
     }
 
-    public Member(Long id, String name, String password, String email) {
+    public Member(long id, String name, String password, String email) {
         this();
         this.name = name;
         this.password = password;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", createDate=" + createDate +
+                ", modifyDate=" + modifyDate +
+                '}';
     }
 
     public Member(String email) {
@@ -27,11 +39,11 @@ public class Member {
         this.email = email;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
