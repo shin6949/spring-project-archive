@@ -54,7 +54,7 @@ public class CommentDao {
         comment.setWriteTime(LocalDateTime.now());
         SqlParameterSource params = new BeanPropertySqlParameterSource(comment);
         if (insertAction.execute(params) > 0) {
-            // 제대로 INSERT가 되면
+            // 제대로 INSERT가 되면 true
             return true;
         } else {
             return false;

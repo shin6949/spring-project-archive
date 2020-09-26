@@ -36,7 +36,7 @@ ${post.content}<br>
 </c:forEach>
 
 댓글 남기기<br>
-<form action="insertcomment/${postId}" method="post" onsubmit="return isValidate(this)">
+<form action="/comment/insert/${postId}" method="post" onsubmit="return isValidate(this)">
     <input type="text" name="content"><br>
     <input type="submit" value="댓글 작성">
 </form>

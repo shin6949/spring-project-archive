@@ -36,6 +36,15 @@ public class PostDao {
         return jdbc.query(PostDaoSqls.SELECT_ALL_BY_BOARD_NAME, map, rowMapper);
     }
 
+    public List<Post> getPostsByPage(String boardName, int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardName", boardName);
+        map.put("start", page * 4);
+        map.put("end", page * 4 + 4);
+
+        return jdbc.query(PostDaoSqls.SELECT_POSTS_BY_PAGE, map, rowMapper);
+    }
+
     public Post getPost(String id) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -58,5 +67,12 @@ public class PostDao {
         Map<String, Object> map = new HashMap<>();
         map.put("postId", postId);
         jdbc.update(PostDaoSqls.UPDATE_VIEW_NUMBER, map);
+    }
+
+    public int getPostCount(String boardName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardName", boardName);
+
+        return (int) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_BOARD_NAME, map).get("post_count");
     }
 }

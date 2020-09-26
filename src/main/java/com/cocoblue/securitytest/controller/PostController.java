@@ -65,23 +65,4 @@ public class PostController {
         postService.writePost(post);
         return "redirect:/board/posts";
     }
-
-    @RequestMapping("read/insertcomment/{postId}")
-    public String insertComment(@ModelAttribute Comment comment, @PathVariable long postId, Model model) {
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
-            model.addAttribute("status", "login");
-            return "posts/commentstatus";
-        }
-
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        comment.setWriterId(customUserDetails.getId());
-        comment.setPostId(postId);
-
-        if(commentService.writeComment(comment)) {
-            model.addAttribute("status", "success");
-        } else {
-            model.addAttribute("status", "server");
-        }
-        return "posts/commentstatus";
-    }
 }
