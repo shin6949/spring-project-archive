@@ -25,10 +25,44 @@ public class PostController {
     }
 
     @RequestMapping("/posts")
-    public String getPostList(Model model) {
-        List<Post> posts = postService.getPostsAll("자유 게시판");
+    public String getPostList(Model model, @RequestParam(name = "page", required = false) String page) {
+        // requestparam이 없을 경우 기본 값 정의
+        if(page == null) {
+            page = "0";
+        }
+
+        List<Post> posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page));
+
+        // 해당 페이지에 글이 없을 경우 1페이지를 가져옴.
+        if(posts.size() == 0) {
+            posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
+        }
+
         model.addAttribute("posts", posts);
-        return "posts/Postlist";
+        model.addAttribute("pagesCount", postService.getPostsCount("자유 게시판") / 4);
+        model.addAttribute("nowPage", Integer.parseInt(page) + 1);
+        return "posts/postlist";
+    }
+
+    @RequestMapping("/posts/search")
+    public String getPostsByKeyword(Model model, @RequestParam(name = "keyword", required = false) String keyword,
+                                       @RequestParam(name = "page", required = false) String page) {
+        // requestparam이 없을 경우 기본 값 정의
+        if(page == null) {
+            page = "0";
+        }
+
+        List<Post> posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page));
+
+        // 해당 페이지에 글이 없을 경우 1페이지를 가져옴.
+        if(posts.size() == 0) {
+            posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
+        }
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("pagesCount", postService.getPostsCount("자유 게시판") / 4);
+        model.addAttribute("nowPage", Integer.parseInt(page) + 1);
+        return "posts/postlist";
     }
 
     @GetMapping("read/{id}")
