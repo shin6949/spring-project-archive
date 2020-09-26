@@ -69,11 +69,27 @@ public class PostDao {
         return (long) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_BOARD_NAME, map).get("post_count");
     }
 
-    public List<Post> getPostsByKeyword(String boardName, String keyword) {
+    public List<Post> getPostsByKeyword(String boardName, String keyword, int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardName", boardName);
+        map.put("keyword", keyword);
+        map.put("start", page * 4);
+        map.put("end", page * 4 + 4);
+
+        return jdbc.query(PostDaoSqls.SELECT_POSTS_BY_KEYWORD, map, rowMapper);
+    }
+
+    public long getPostsCountByKeyword(String boardName, String keyword) {
         Map<String, Object> map = new HashMap<>();
         map.put("boardName", boardName);
         map.put("keyword", keyword);
 
-        return jdbc.query(PostDaoSqls.SELECT_POSTS_BY_KEYWORD, map, rowMapper);
+        System.out.println(jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_KEYWORD, map).get("post_count"));
+
+        try {
+            return (long) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_KEYWORD, map).get("post_count");
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

@@ -2,11 +2,13 @@ package com.cocoblue.securitytest.service.security;
 
 public class UserEntity {
     private long id;
+    private String name;
     private String loginUserId;
     private String password;
 
-    public UserEntity(long id, String loginUserId, String password) {
+    public UserEntity(long id, String name, String loginUserId, String password) {
         this.id = id;
+        this.name = name;
         this.loginUserId = loginUserId;
         this.password = password;
     }
@@ -17,6 +19,14 @@ public class UserEntity {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLoginUserId() {
@@ -37,6 +47,11 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "password" + this.getPassword();
+        return "UserEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", loginUserId='" + loginUserId + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

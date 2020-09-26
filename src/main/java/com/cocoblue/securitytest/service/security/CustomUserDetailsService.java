@@ -25,7 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.setId(customUser.getId());
-        customUserDetails.setUsername(customUser.getLoginUserId());
+        customUserDetails.setName(customUser.getName());
+        customUserDetails.setEmail(customUser.getLoginUserId());
         customUserDetails.setPassword(customUser.getPassword());
 
         List<UserRoleEntity> customRoles = userdbService.getUserRoles(username);
