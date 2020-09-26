@@ -39,4 +39,6 @@ public class PostDaoSqls {
             "WHERE b.name = :boardName AND (p.content LIKE :keyword OR p.title LIKE :keyword)\n" +
             "ORDER BY p.write_time DESC \n" +
             "LIMIT :start, :end";
+
+    public static String SELECT_COUNT_BY_KEYWORD = "SELECT count(*) as post_count FROM post as p JOIN board as b ON p.board_id = b.id WHERE b.name = :boardName AND (p.title LIKE :keyword OR p.content LIKE :keyword) GROUP BY p.board_id";
 }

@@ -13,5 +13,6 @@ public interface PostService {
     public void increaseViewNum(String post_id);
     public List<Post> getPostsByPage(String boardName, int page);
     public long getPostsCount(String boardName);
-    public List<Post> getPostsByKeyword(String boardName, String keyword);
+    public List<Post> getPostsByKeyword(String boardName, String keyword, int page);
+    public long getPostsCountByKeyword(String boardName, String keyword);
 }

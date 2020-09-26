@@ -53,7 +53,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPostsByKeyword(String boardName, String keyword) {
-        return postDao.getPostsByKeyword(boardName, "%" + keyword + "%");
+    public List<Post> getPostsByKeyword(String boardName, String keyword, int page) {
+        return postDao.getPostsByKeyword(boardName, "%" + keyword + "%", page);
+    }
+
+    @Override
+    public long getPostsCountByKeyword(String boardName, String keyword) {
+        return postDao.getPostsCountByKeyword(boardName, "%" + keyword + "%");
     }
 }

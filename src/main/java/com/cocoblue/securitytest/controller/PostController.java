@@ -1,6 +1,5 @@
 package com.cocoblue.securitytest.controller;
 
-import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.dto.Post;
 import com.cocoblue.securitytest.service.CommentService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
@@ -25,43 +24,45 @@ public class PostController {
     }
 
     @RequestMapping("/posts")
-    public String getPostList(Model model, @RequestParam(name = "page", required = false) String page) {
+    public String getPostList(Model model, @RequestParam(name = "page", required = false) String page,
+                                            @RequestParam(name = "keyword", required = false) String keyword) {
+
         // requestparam이 없을 경우 기본 값 정의
         if(page == null) {
-            page = "0";
+            page = "1";
         }
 
-        List<Post> posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page));
+        List<Post> posts = null;
 
-        // 해당 페이지에 글이 없을 경우 1페이지를 가져옴.
-        if(posts.size() == 0) {
-            posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
+        if(keyword != null) {
+            model.addAttribute("searchKeyword", keyword);
+            posts = postService.getPostsByKeyword("자유 게시판", keyword, Integer.parseInt(page) - 1);
+            model.addAttribute("pagesCount", (postService.getPostsCountByKeyword("자유 게시판", keyword) / 4) + 1);
+            model.addAttribute("searchStatus", "Success");
+
+            // 검색 결과가 없을 경우, 1페이지를 갖고 옴.
+            if(posts.size() == 0) {
+                model.addAttribute("searchStatus", "Fail");
+
+                posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
+                model.addAttribute("pagesCount", (postService.getPostsCount("자유 게시판") / 4) + 1);
+            }
+        } else {
+            posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page) - 1);
+
+            // 해당 페이지에 글이 없을 경우 1페이지를 가져옴.
+            if(posts.size() == 0) {
+                posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
+            }
+
+            model.addAttribute("pagesCount", (postService.getPostsCount("자유 게시판") / 4) + 1);
         }
 
         model.addAttribute("posts", posts);
-        model.addAttribute("pagesCount", postService.getPostsCount("자유 게시판") / 4);
-        model.addAttribute("nowPage", Integer.parseInt(page) + 1);
-        return "posts/postlist";
-    }
+        model.addAttribute("nowPage", Integer.parseInt(page));
 
-    @RequestMapping("/posts/search")
-    public String getPostsByKeyword(Model model, @RequestParam(name = "keyword", required = false) String keyword,
-                                       @RequestParam(name = "page", required = false) String page) {
-        // requestparam이 없을 경우 기본 값 정의
-        if(page == null) {
-            page = "0";
-        }
+        model = addLoginImf(model);
 
-        List<Post> posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page));
-
-        // 해당 페이지에 글이 없을 경우 1페이지를 가져옴.
-        if(posts.size() == 0) {
-            posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
-        }
-
-        model.addAttribute("posts", posts);
-        model.addAttribute("pagesCount", postService.getPostsCount("자유 게시판") / 4);
-        model.addAttribute("nowPage", Integer.parseInt(page) + 1);
         return "posts/postlist";
     }
 
@@ -98,5 +99,20 @@ public class PostController {
 
         postService.writePost(post);
         return "redirect:/board/posts";
+    }
+
+    private Model addLoginImf(Model model) {
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
+            return model;
+        }
+
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("loginedId", customUserDetails.getId());
+        model.addAttribute("loginedName", customUserDetails.getName());
+
+        System.out.println(customUserDetails.getName());
+
+        return model;
     }
 }

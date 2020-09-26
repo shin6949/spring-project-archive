@@ -7,7 +7,8 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
     private long id;
-    private String username;
+    private String email;
+    private String name;
     private String password;
     private boolean isEnabled;
     private boolean isAccountNonExpired;
@@ -23,13 +24,25 @@ public class CustomUserDetails implements UserDetails {
         this.id = id;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
