@@ -28,7 +28,7 @@ public class PostController {
     public String getPostList(Model model) {
         List<Post> posts = postService.getPostsAll("자유 게시판");
         model.addAttribute("posts", posts);
-        return "posts/postlist";
+        return "posts/Postlist";
     }
 
     @GetMapping("read/{id}")
