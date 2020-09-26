@@ -55,6 +55,7 @@
             return true;
         }
     </script>
+
 </head>
 <body>
 <div>
@@ -68,7 +69,7 @@
             <div>
                 <label>이메일</label>
                 <input type="text" name="email" required/>
-                <button name="emailChk" type="button" onclick="fn_emailCheck(this.form);" value="N">중복확인</button>
+                <button name="emailChk" type="button" onclick="fn_emailCheck(this.form);" value="N" >중복확인</button>
                 <label>아이디로 사용됩니다.</label>
             </div>
             <div>
@@ -80,7 +81,7 @@
                 <input type="password" name="password_re" required>
             </div>
             <div>
-                <input type="submit" value="회원가입">
+                <input type="submit" value="회원가입" >
             </div>
         </form>
     </div>
