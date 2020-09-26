@@ -48,7 +48,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public int getPostsCount(String boardName) {
+    public long getPostsCount(String boardName) {
         return postDao.getPostsCount(boardName);
     }
 

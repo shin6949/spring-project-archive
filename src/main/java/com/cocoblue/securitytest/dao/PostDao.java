@@ -63,11 +63,11 @@ public class PostDao {
         jdbc.update(PostDaoSqls.UPDATE_VIEW_NUMBER, map);
     }
 
-    public int getPostsCount(String boardName) {
+    public long getPostsCount(String boardName) {
         Map<String, Object> map = new HashMap<>();
         map.put("boardName", boardName);
 
-        return (int) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_BOARD_NAME, map).get("post_count");
+        return (long) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_BOARD_NAME, map).get("post_count");
     }
 
     public List<Post> getPostsByKeyword(String boardName, String keyword) {
