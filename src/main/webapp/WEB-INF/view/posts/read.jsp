@@ -19,6 +19,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+<div style="text-align: right">
+    <c:if test="${loginedId ne null}">
+        <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
+    </c:if>
+
+    <c:if test="${loginedId eq null}">
+        <h4><a href="${pageContext.request.contextPath}/login">로그인</a>  |  <a href="${pageContext.request.contextPath}/members/register">회원가입</a></h4>
+    </c:if>
+</div>
+
 <div class="container ">
     <div class="row">
         <table class="table">

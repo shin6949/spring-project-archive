@@ -10,10 +10,24 @@
     <title>게시글 리스트</title>
 </head>
 <body>
+<div style="text-align: right">
+    <c:if test="${loginedId ne null}">
+        <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
+    </c:if>
+
+    <c:if test="${loginedId eq null}">
+        <h4><a href="${pageContext.request.contextPath}/login">로그인</a>  |  <a href="${pageContext.request.contextPath}/members/register">회원가입</a></h4>
+    </c:if>
+</div>
+
+<div>
+    <h1>게시글 리스트</h1>
+</div>
+
 <div>
 <c:if test="${param.keyword ne null}">
     <c:if test="${searchStatus eq 'Success'}">
-        ${param.keyword}에 대한 검색 결과입니다. <a href="/board/posts">돌아가기</a>
+        ${param.keyword}에 대한 검색 결과입니다. <a href="${pageContext.request.contextPath}/board/posts">돌아가기</a>
     </c:if>
 
     <c:if test="${searchStatus ne 'Success'}">
@@ -23,7 +37,6 @@
 </div>
 
 <table class="table table-striped">
-    <c:out value="${test}" />
     <tr>
         <td>게시판</td>
         <td>제목</td>
@@ -48,21 +61,21 @@
         </c:if>
 
         <c:if test="${num ne nowPage && param.keyword eq null}">
-            <a href="/board/posts?page=${num}">${num} </a>
+            <a href="${pageContext.request.contextPath}/board/posts?page=${num}">${num} </a>
         </c:if>
 
         <c:if test="${num ne nowPage && param.keyword ne null}">
-            <a href="/board/posts?page=${num}&keyword=${param.keyword}">${num} </a>
+            <a href="${pageContext.request.contextPath}/board/posts?page=${num}&keyword=${param.keyword}">${num} </a>
         </c:if>
     </c:forEach>
 </div>
 <center>
-    <form method="get" action="/board/posts">
-    <div>
-        <input type="text" name="keyword" required>
-        <input type="submit" class="btn btn-primary btn-sm" value="검색">
-    </div>
-</form>
+    <form method="get" action="${pageContext.request.contextPath}/board/posts">
+        <div>
+            <input type="text" name="keyword" required>
+            <input type="submit" class="btn btn-primary btn-sm" value="검색">
+        </div>
+    </form>
 </center>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
