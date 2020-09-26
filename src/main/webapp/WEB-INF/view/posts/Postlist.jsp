@@ -10,6 +10,18 @@
     <title>게시글 리스트</title>
 </head>
 <body>
+<div>
+<c:if test="${param.keyword ne null}">
+    <c:if test="${searchStatus eq 'Success'}">
+        ${param.keyword}에 대한 검색 결과입니다. <a href="/board/posts">돌아가기</a>
+    </c:if>
+
+    <c:if test="${searchStatus ne 'Success'}">
+        ${param.keyword}에 대한 검색 결과는 없습니다.
+    </c:if>
+</c:if>
+</div>
+
 <table class="table table-striped">
     <c:out value="${test}" />
     <tr>
@@ -29,7 +41,22 @@
         </tr>
     </c:forEach>
 </table>
-<form method="get">
+<div style="text-align: center">
+    <c:forEach var="num" begin="1" end="${pagesCount}">
+        <c:if test="${num eq nowPage}">
+            ${num}
+        </c:if>
+
+        <c:if test="${num ne nowPage && param.keyword eq null}">
+            <a href="/board/posts?page=${num}">${num} </a>
+        </c:if>
+
+        <c:if test="${num ne nowPage && param.keyword ne null}">
+            <a href="/board/posts?page=${num}&keyword=${param.keyword}">${num} </a>
+        </c:if>
+    </c:forEach>
+</div>
+<form method="get" action="/board/posts">
     <div>
         <input type="text" name="keyword" required>
         <input type="submit" class="btn btn-primary btn-sm" value="검색">
