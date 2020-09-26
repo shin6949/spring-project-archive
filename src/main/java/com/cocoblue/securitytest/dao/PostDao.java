@@ -1,6 +1,5 @@
 package com.cocoblue.securitytest.dao;
 
-import com.cocoblue.securitytest.dto.MemberRole;
 import com.cocoblue.securitytest.dto.Post;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,7 +10,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,12 +53,8 @@ public class PostDao {
     public Boolean writePost(Post post) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
 
-        if (insertAction.execute(params) > 0) {
-            // 게시글이 정상적으로 올라갔다면 true
-            return true;
-        } else {
-            return false;
-        }
+        // 게시글이 정상적으로 올라갔다면 true
+        return insertAction.execute(params) > 0;
     }
 
     public void increaseViewNum(String postId) {
@@ -69,10 +63,18 @@ public class PostDao {
         jdbc.update(PostDaoSqls.UPDATE_VIEW_NUMBER, map);
     }
 
-    public int getPostCount(String boardName) {
+    public int getPostsCount(String boardName) {
         Map<String, Object> map = new HashMap<>();
         map.put("boardName", boardName);
 
         return (int) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_BOARD_NAME, map).get("post_count");
+    }
+
+    public List<Post> getPostsByKeyword(String boardName, String keyword) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardName", boardName);
+        map.put("keyword", keyword);
+
+        return jdbc.query(PostDaoSqls.SELECT_POSTS_BY_KEYWORD, map, rowMapper);
     }
 }

@@ -41,4 +41,19 @@ public class PostServiceImpl implements PostService {
     public void increaseViewNum(String post_id) {
         postDao.increaseViewNum(post_id);
     }
+
+    @Override
+    public List<Post> getPostsByPage(String boardName, int page) {
+        return postDao.getPostsByPage(boardName, page);
+    }
+
+    @Override
+    public int getPostsCount(String boardName) {
+        return postDao.getPostsCount(boardName);
+    }
+
+    @Override
+    public List<Post> getPostsByKeyword(String boardName, String keyword) {
+        return postDao.getPostsByKeyword(boardName, "%" + keyword + "%");
+    }
 }

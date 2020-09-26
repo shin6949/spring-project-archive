@@ -11,4 +11,7 @@ public interface PostService {
     public List<Comment> getComments(String post_id);
     public Boolean writePost(Post post);
     public void increaseViewNum(String post_id);
+    public List<Post> getPostsByPage(String boardName, int page);
+    public int getPostsCount(String boardName);
+    public List<Post> getPostsByKeyword(String boardName, String keyword);
 }
