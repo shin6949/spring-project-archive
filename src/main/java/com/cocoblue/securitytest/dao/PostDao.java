@@ -53,7 +53,6 @@ public class PostDao {
     public Boolean writePost(Post post) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
 
-        // 게시글이 정상적으로 올라갔다면 true
         return insertAction.execute(params) > 0;
     }
 
