@@ -63,7 +63,7 @@ public class PostController {
 
         model = addLoginImf(model);
 
-        return "posts/postlist";
+        return "posts/posts";
     }
 
     @GetMapping("read/{id}")
@@ -80,6 +80,8 @@ public class PostController {
         if(commentCount != 0) {
             model.addAttribute("comments", commentService.getComments(id));
         }
+
+        model = addLoginImf(model);
 
         return "posts/read";
     }
@@ -110,8 +112,6 @@ public class PostController {
 
         model.addAttribute("loginedId", customUserDetails.getId());
         model.addAttribute("loginedName", customUserDetails.getName());
-
-        System.out.println(customUserDetails.getName());
 
         return model;
     }
