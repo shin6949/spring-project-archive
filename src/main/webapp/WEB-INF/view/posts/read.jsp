@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
+
 <div style="text-align: right">
     <c:if test="${loginedId ne null}">
         <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
@@ -46,8 +47,18 @@
             </tr>
             </tbody>
         </table>
+        <br>
+        <div class="btn-toolbar" role="toolbar" style="width: 100%;">
+            <div class="btn-group mr-2" role="group">
+                <button type="button" class="btn btn-secondary">수정</button>
+                <button type="button" class="btn btn-secondary">삭제</button>
+            </div>
+        </div>
+        <br>
         <table class="table">
             <thead>
+            댓글 수: ${comment_count}<br>
+            <br>
             <c:forEach var="row" items="${comments}">
                 <tr class="table-active">
                     작성자: ${row.writerName}<br>
@@ -55,6 +66,9 @@
                         ${row.content}<br>
                     <br>
                 </tr>
+                <div style="width: 100%;">
+                <button type="button" class="btn btn-secondary" >댓글삭제</button>
+                </div>
             </c:forEach>
             </thead>
         </table>
@@ -65,9 +79,13 @@
                     <input type="text" name="content"><br>
                     <input type="submit" value="댓글 작성">
                 </form>
+
             </tr>
             </thead>
         </table>
+
+
+        </div>
     </div>
 </div>
 
