@@ -2,7 +2,6 @@ package com.cocoblue.securitytest.controller;
 
 import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.service.CommentService;
-import com.cocoblue.securitytest.service.PostService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ public class CommentController {
 
     @PostMapping("insert/{postId}")
     public String insertComment(@ModelAttribute Comment comment,
-                                @PathVariable(name = "postId", required = true) long postId,
+                                @PathVariable(name = "postId") long postId,
                                 Model model) {
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
             model.addAttribute("status", "login");
@@ -40,7 +39,7 @@ public class CommentController {
     }
 
     @RequestMapping("delete/{commentId}")
-    public String deleteComment(Model model, @PathVariable(name = "commentId", required = true) long commentId) {
+    public String deleteComment(Model model, @PathVariable(name = "commentId") long commentId) {
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
             // 비로그인 상태에서 접근한 경우
             model.addAttribute("result", "No Login Value");

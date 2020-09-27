@@ -66,4 +66,9 @@ public class PostServiceImpl implements PostService {
     public Boolean deletePost(String postId) {
         return postDao.deletePost(postId);
     }
+
+    @Override
+    public Boolean updatePost(String postId, Post post) {
+        return postDao.updatePost(postId, post);
+    }
 }

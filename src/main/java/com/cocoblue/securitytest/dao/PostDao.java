@@ -99,4 +99,13 @@ public class PostDao {
 
         return jdbc.update(PostDaoSqls.DELETE_BY_POST_ID, map) > 0;
     }
+
+    public Boolean updatePost(String postId, Post post) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("postId", postId);
+        map.put("title", post.getTitle());
+        map.put("content", post.getContent());
+
+        return jdbc.update(PostDaoSqls.UPDATE_BY_POST_ID, map) > 0;
+    }
 }

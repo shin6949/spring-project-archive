@@ -15,24 +15,18 @@ public class Post {
     private String writerName;
     private String boardName;
 
-    // Default Constructor
     public Post() {
     }
 
-    // Original Post Constructor
-    public Post(long id, String title, String content, long writerId, LocalDateTime writeTime, long boardId, long viewNumber) {
+    public Post(long id, String title, String content, long writerId, LocalDateTime writeTime, String writeTimeString, long boardId, long viewNumber, String writerName, String boardName) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.writerId = writerId;
         this.writeTime = writeTime;
+        this.writeTimeString = writeTimeString;
         this.boardId = boardId;
         this.viewNumber = viewNumber;
-    }
-
-    // Post Constructor for Post List
-    public Post(long id, String title, String content, long writerId, LocalDateTime writeTime, long boardId, long viewNumber, String writerName, String boardName) {
-        this(id, title, content, writerId, writeTime, boardId, viewNumber);
         this.writerName = writerName;
         this.boardName = boardName;
     }
