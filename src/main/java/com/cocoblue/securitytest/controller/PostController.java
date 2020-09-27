@@ -1,5 +1,6 @@
 package com.cocoblue.securitytest.controller;
 
+import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.dto.Post;
 import com.cocoblue.securitytest.service.CommentService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
@@ -32,12 +33,12 @@ public class PostController {
             page = "1";
         }
 
-        List<Post> posts = null;
+        List<Post> posts;
 
         if(keyword != null) {
             model.addAttribute("searchKeyword", keyword);
             posts = postService.getPostsByKeyword("자유 게시판", keyword, Integer.parseInt(page) - 1);
-            model.addAttribute("pagesCount", (postService.getPostsCountByKeyword("자유 게시판", keyword) / 4) + 1);
+            model.addAttribute("pagesCount", getTotalPage(postService.getPostsCountByKeyword("자유 게시판", keyword)));
             model.addAttribute("searchStatus", "Success");
 
             // 검색 결과가 없을 경우, 1페이지를 갖고 옴.
@@ -45,7 +46,7 @@ public class PostController {
                 model.addAttribute("searchStatus", "Fail");
 
                 posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
-                model.addAttribute("pagesCount", (postService.getPostsCount("자유 게시판") / 4) + 1);
+                model.addAttribute("pagesCount", getTotalPage(postService.getPostsCountByKeyword("자유 게시판", keyword)));
             }
         } else {
             posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page) - 1);
@@ -55,7 +56,7 @@ public class PostController {
                 posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
             }
 
-            model.addAttribute("pagesCount", (postService.getPostsCount("자유 게시판") / 4) + 1);
+            model.addAttribute("pagesCount", getTotalPage(postService.getPostsCountByKeyword("자유 게시판", keyword)));
         }
 
         model.addAttribute("posts", posts);
@@ -78,7 +79,8 @@ public class PostController {
         postService.increaseViewNum(id);
 
         if(commentCount != 0) {
-            model.addAttribute("comments", commentService.getComments(id));
+            List<Comment> comments = commentService.getComments(id);
+            model.addAttribute("comments", comments);
         }
 
         model = addLoginImf(model);
@@ -87,7 +89,7 @@ public class PostController {
     }
 
     @GetMapping("write")
-    public String getWrite(Model model) {
+    public String getWrite() {
         return "posts/write";
     }
 
@@ -103,6 +105,31 @@ public class PostController {
         return "redirect:/board/posts";
     }
 
+    @RequestMapping("delete/{postId}")
+    public String deletePost(Model model, @PathVariable(name = "postId", required = true) String postId) {
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
+            // 비로그인 상태에서 접근한 경우
+            model.addAttribute("result", "No Login Value");
+        }
+
+        Post post = postService.getPost(postId);
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(customUserDetails.getId() == post.getWriterId()) {
+            if(postService.deletePost(postId)) {
+                // 댓글 삭제가 완료되면.
+                model.addAttribute("result", "Success");
+            } else {
+                model.addAttribute("result", "Fail");
+            }
+        } else {
+            // 로그인 된 ID와 댓글 작성자의 ID가 일치하지 않는 경우
+            model.addAttribute("result", "Permission Error");
+        }
+
+        return "posts/deleteresult";
+    }
+
     private Model addLoginImf(Model model) {
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
             return model;
@@ -114,5 +141,13 @@ public class PostController {
         model.addAttribute("loginedName", customUserDetails.getName());
 
         return model;
+    }
+
+    private long getTotalPage(long postsCount) {
+        if(postsCount % 4 == 0) {
+            return postsCount / 4;
+        } else {
+            return postsCount / 4 + 1;
+        }
     }
 }

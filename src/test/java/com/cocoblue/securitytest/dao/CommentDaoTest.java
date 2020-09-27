@@ -17,7 +17,7 @@ public class CommentDaoTest {
     CommentDao commentDao;
 
     @Test
-    public void getCountTest() {
-        System.out.println(commentDao.getCommentCount("2"));
+    public void getCommentTest() {
+        System.out.println(commentDao.getComment("3"));
     }
 }

@@ -30,4 +30,14 @@ public class CommentServiceImpl implements CommentService {
     public Boolean writeComment(Comment comment) {
         return commentDao.writeComment(comment);
     }
+
+    @Override
+    public Boolean deleteComment(String id) {
+        return commentDao.deleteComment(id);
+    }
+
+    @Override
+    public Comment getComment(String commentId) {
+        return commentDao.getComment(commentId);
+    }
 }

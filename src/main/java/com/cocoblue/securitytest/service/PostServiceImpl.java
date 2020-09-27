@@ -61,4 +61,9 @@ public class PostServiceImpl implements PostService {
     public long getPostsCountByKeyword(String boardName, String keyword) {
         return postDao.getPostsCountByKeyword(boardName, "%" + keyword + "%");
     }
+
+    @Override
+    public Boolean deletePost(String postId) {
+        return postDao.deletePost(postId);
+    }
 }
