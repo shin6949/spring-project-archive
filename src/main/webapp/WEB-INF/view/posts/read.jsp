@@ -20,13 +20,20 @@
 </head>
 <body>
 
-<div style="text-align: right">
+<div style="width: 100%; text-align: right">
     <c:if test="${loginedId ne null}">
         <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
     </c:if>
 
     <c:if test="${loginedId eq null}">
-        <h4><a href="${pageContext.request.contextPath}/login">로그인</a>  |  <a href="${pageContext.request.contextPath}/members/register">회원가입</a></h4>
+        <div>
+            <div class="btn-toolbar" role="toolbar" >
+                <a style="float: right" href="${pageContext.request.contextPath}/login">
+                    <button type="button" class="btn btn-secondary float-right">로그인</button></a>
+                <a style="float: right" href="${pageContext.request.contextPath}/members/register">
+                    <button type="button" class="btn btn-secondary float-right">회원가입</button></a>
+            </div>
+        </div>
     </c:if>
 </div>
 
