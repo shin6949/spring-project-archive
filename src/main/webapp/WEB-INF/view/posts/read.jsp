@@ -32,6 +32,7 @@
 </head>
 
 <body>
+
 <div style="width: 100%; text-align: right">
     <c:if test="${loginedId ne null}">
         <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
@@ -83,6 +84,9 @@
         <c:if test="${loginedId eq post.writerId}">
             <div class="btn-toolbar" role="toolbar" style="width: 100%;">
                 <div class="btn-group mr-2" role="group">
+                    <a href="/board/posts">
+                        <button type="button" class="btn btn-secondary">목록</button>
+                    </a>
                     <a href="${pageContext.request.contextPath}/board/write?mode=modify&postId=${post.id}">
                         <button type="button" class="btn btn-secondary">수정</button>
                     </a>
@@ -91,6 +95,12 @@
                     </a>
                 </div>
             </div>
+        </c:if>
+        <c:if test="${loginedId ne post.writerId}">
+            <a href="/board/posts">
+                <button type="button" class="btn btn-secondary">목록</button>
+            </a>
+            <br>
         </c:if>
         <br>
         <table class="table">

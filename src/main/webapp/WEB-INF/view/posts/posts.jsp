@@ -11,7 +11,6 @@
     <title>게시글 리스트</title>
 </head>
 <body>
-
 <div style="width: 100%; text-align: right">
     <c:if test="${loginedId ne null}">
         <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
@@ -88,6 +87,7 @@
         </c:if>
     </c:forEach>
 </div>
+<a href="/board/write"><button type="button" class="btn btn-secondary">글쓰기</button></a>
 <center>
     <form method="get" action="${pageContext.request.contextPath}/board/posts">
         <div>
