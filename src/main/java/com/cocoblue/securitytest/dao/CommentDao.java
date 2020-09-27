@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -50,14 +51,25 @@ public class CommentDao {
         return jdbc.query(CommentDaoSqls.SELECT_ALL_BY_POST_ID, map, rowMapper);
     }
 
+    public Comment getComment(String commentId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("commentId", commentId);
+
+        return jdbc.queryForObject(CommentDaoSqls.SELECT_BY_COMMENT_ID, map, rowMapper);
+    }
+
     public Boolean writeComment(Comment comment) {
         comment.setWriteTime(LocalDateTime.now());
         SqlParameterSource params = new BeanPropertySqlParameterSource(comment);
-        if (insertAction.execute(params) > 0) {
-            // 제대로 INSERT가 되면 true
-            return true;
-        } else {
-            return false;
-        }
+
+        // 제대로 INSERT가 되면 true
+        return insertAction.execute(params) > 0;
+    }
+
+    public Boolean deleteComment(String id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("commentId", id);
+
+        return jdbc.update(CommentDaoSqls.DELETE_BY_COMMENT_ID, map) > 0;
     }
 }

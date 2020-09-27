@@ -92,4 +92,11 @@ public class PostDao {
             return 0;
         }
     }
+
+    public Boolean deletePost(String postId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("postId", postId);
+
+        return jdbc.update(PostDaoSqls.DELETE_BY_POST_ID, map) > 0;
+    }
 }

@@ -8,4 +8,6 @@ public interface CommentService {
     public long getCommentCount(String postId);
     public List<Comment> getComments(String postId);
     public Boolean writeComment(Comment comment);
+    public Boolean deleteComment(String id);
+    public Comment getComment(String commentId);
 }
