@@ -83,8 +83,10 @@
         <c:if test="${loginedId eq post.writerId}">
             <div class="btn-toolbar" role="toolbar" style="width: 100%;">
                 <div class="btn-group mr-2" role="group">
-                    <button type="button" class="btn btn-secondary">수정</button>
-                    <a href="/board/delete/${post.id}">
+                    <a href="${pageContext.request.contextPath}/board/write?mode=modify&postId=${post.id}">
+                        <button type="button" class="btn btn-secondary">수정</button>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/board/delete/${post.id}">
                         <button type="button" class="btn btn-secondary">삭제</button>
                     </a>
                 </div>
@@ -105,7 +107,7 @@
 
                 <c:if test="${loginedId eq row.writerId}">
                     <div style="width: 100%;">
-                        <a href="/comment/delete/${row.id}">
+                        <a href="${pageContext.request.contextPath}/comment/delete/${row.id}">
                             <button type="button" class="btn btn-secondary">삭제</button>
                         </a>
                     </div>
@@ -113,16 +115,18 @@
             </c:forEach>
             </thead>
         </table>
-        <table>
-            <thead>
-            <tr class="table-active">
-                <form action="/comment/insert/${postId}" method="post" onsubmit="return isValidate(this)">
-                    <input type="text" name="content"><br>
-                    <input type="submit" value="댓글 작성">
-                </form>
-            </tr>
-            </thead>
-        </table>
+        <c:if test="${loginedId ne null}">
+            <table>
+                <thead>
+                <tr class="table-active">
+                    <form action="${pageContext.request.contextPath}/comment/insert/${postId}" method="post" onsubmit="return isValidate(this)">
+                        <input type="text" name="content"><br>
+                        <input type="submit" value="댓글 작성">
+                    </form>
+                </tr>
+                </thead>
+            </table>
+        </c:if>
     </div>
 </div>
 

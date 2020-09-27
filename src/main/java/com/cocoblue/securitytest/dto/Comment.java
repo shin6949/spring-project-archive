@@ -12,6 +12,20 @@ public class Comment {
     private LocalDateTime writeTime;
     private String writeTimeString;
 
+    public Comment() {
+
+    }
+
+    public Comment(long id, long postId, long writerId, String writerName, String content, LocalDateTime writeTime, String writeTimeString) {
+        this.id = id;
+        this.postId = postId;
+        this.writerId = writerId;
+        this.writerName = writerName;
+        this.content = content;
+        this.writeTime = writeTime;
+        this.writeTimeString = writeTimeString;
+    }
+
     public long getId() {
         return id;
     }

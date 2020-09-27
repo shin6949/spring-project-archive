@@ -29,7 +29,7 @@
 
 <c:if test="${result eq 'Success'}">
     <script>
-        history.go(-1);
+        location.href="/board/posts";
     </script>
 </c:if>
 </body>

@@ -43,4 +43,6 @@ public class PostDaoSqls {
     public static String SELECT_COUNT_BY_KEYWORD = "SELECT count(*) as post_count FROM post as p JOIN board as b ON p.board_id = b.id WHERE b.name = :boardName AND (p.title LIKE :keyword OR p.content LIKE :keyword) GROUP BY p.board_id";
 
     public static String DELETE_BY_POST_ID = "DELETE FROM post WHERE id = :postId";
+
+    public static String UPDATE_BY_POST_ID = "UPDATE post SET content = :content, title = :title, write_time = now() WHERE id = :postId";
 }

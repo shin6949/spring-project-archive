@@ -46,7 +46,7 @@ public class PostController {
                 model.addAttribute("searchStatus", "Fail");
 
                 posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
-                model.addAttribute("pagesCount", getTotalPage(postService.getPostsCountByKeyword("자유 게시판", keyword)));
+                model.addAttribute("pagesCount", getTotalPage(postService.getPostsCount("자유 게시판")));
             }
         } else {
             posts = postService.getPostsByPage("자유 게시판", Integer.parseInt(page) - 1);
@@ -56,7 +56,7 @@ public class PostController {
                 posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
             }
 
-            model.addAttribute("pagesCount", getTotalPage(postService.getPostsCountByKeyword("자유 게시판", keyword)));
+            model.addAttribute("pagesCount", getTotalPage(postService.getPostsCount("자유 게시판")));
         }
 
         model.addAttribute("posts", posts);
@@ -88,8 +88,31 @@ public class PostController {
         return "posts/read";
     }
 
-    @GetMapping("write")
-    public String getWrite() {
+    @RequestMapping("write")
+    public String getWrite(Model model, @RequestParam(name="mode", required = false) String mode,
+                           @RequestParam(name = "postId", required = false) String postId) {
+        if(mode != null) {
+            if(!mode.equals("modify")) {
+                return "posts/write";
+            }
+
+            if(postId == null) {
+                return "posts/write";
+            }
+
+            Post post = postService.getPost(postId);
+            model.addAttribute("post", post);
+            System.out.println(post);
+
+            CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(customUserDetails.getId() != post.getWriterId()) {
+                return "posts/write";
+            }
+
+            model.addAttribute("mode", "modify");
+            model.addAttribute("postId", postId);
+        }
+
         return "posts/write";
     }
 
@@ -106,7 +129,7 @@ public class PostController {
     }
 
     @RequestMapping("delete/{postId}")
-    public String deletePost(Model model, @PathVariable(name = "postId", required = true) String postId) {
+    public String deletePost(Model model, @PathVariable(name = "postId") String postId) {
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
             // 비로그인 상태에서 접근한 경우
             model.addAttribute("result", "No Login Value");
@@ -117,17 +140,23 @@ public class PostController {
 
         if(customUserDetails.getId() == post.getWriterId()) {
             if(postService.deletePost(postId)) {
-                // 댓글 삭제가 완료되면.
+                // 게시글 삭제가 완료되면.
                 model.addAttribute("result", "Success");
             } else {
                 model.addAttribute("result", "Fail");
             }
         } else {
-            // 로그인 된 ID와 댓글 작성자의 ID가 일치하지 않는 경우
+            // 로그인 된 ID와 게시글 작성자의 ID가 일치하지 않는 경우
             model.addAttribute("result", "Permission Error");
         }
 
         return "posts/deleteresult";
+    }
+
+    @RequestMapping("modifypost")
+    public String updatePost(@ModelAttribute Post post, Model model, @RequestParam(name = "postId") String postId) {
+
+        return "posts/updateresult";
     }
 
     private Model addLoginImf(Model model) {
