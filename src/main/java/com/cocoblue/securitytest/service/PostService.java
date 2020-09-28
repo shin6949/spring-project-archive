@@ -16,5 +16,5 @@ public interface PostService {
     public List<Post> getPostsByKeyword(String boardName, String keyword, int page);
     public long getPostsCountByKeyword(String boardName, String keyword);
     public Boolean deletePost(String postId);
-    public Boolean updatePost(String postId, Post post);
+    public Boolean updatePost(Post post);
 }

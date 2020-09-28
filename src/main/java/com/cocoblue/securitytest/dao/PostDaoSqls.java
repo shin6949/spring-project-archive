@@ -44,5 +44,5 @@ public class PostDaoSqls {
 
     public static String DELETE_BY_POST_ID = "DELETE FROM post WHERE id = :postId";
 
-    public static String UPDATE_BY_POST_ID = "UPDATE post SET content = :content, title = :title, write_time = now() WHERE id = :postId";
+    public static String UPDATE_BY_POST_ID = "UPDATE post SET content = :content, title = :title WHERE id = :postId";
 }
