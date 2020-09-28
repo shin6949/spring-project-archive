@@ -102,7 +102,6 @@ public class PostController {
 
             Post post = postService.getPost(postId);
             model.addAttribute("post", post);
-            System.out.println(post);
 
             CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(customUserDetails.getId() != post.getWriterId()) {
@@ -155,6 +154,15 @@ public class PostController {
 
     @RequestMapping("modifypost")
     public String updatePost(@ModelAttribute Post post, Model model, @RequestParam(name = "postId") String postId) {
+        post.setId(Long.parseLong(postId));
+
+        if(postService.updatePost(post)) {
+            // 게시글 변경이 완료되면.
+            model.addAttribute("result", "Success");
+            model.addAttribute("postId", post.getId());
+        } else {
+            model.addAttribute("result", "Fail");
+        }
 
         return "posts/updateresult";
     }

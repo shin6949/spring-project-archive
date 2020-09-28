@@ -84,8 +84,6 @@ public class PostDao {
         map.put("boardName", boardName);
         map.put("keyword", keyword);
 
-        System.out.println(jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_KEYWORD, map).get("post_count"));
-
         try {
             return (long) jdbc.queryForMap(PostDaoSqls.SELECT_COUNT_BY_KEYWORD, map).get("post_count");
         } catch (Exception e) {
@@ -100,9 +98,9 @@ public class PostDao {
         return jdbc.update(PostDaoSqls.DELETE_BY_POST_ID, map) > 0;
     }
 
-    public Boolean updatePost(String postId, Post post) {
+    public Boolean updatePost(Post post) {
         Map<String, Object> map = new HashMap<>();
-        map.put("postId", postId);
+        map.put("postId", post.getId());
         map.put("title", post.getTitle());
         map.put("content", post.getContent());
 

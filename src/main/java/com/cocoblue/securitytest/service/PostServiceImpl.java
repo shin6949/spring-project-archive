@@ -68,7 +68,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Boolean updatePost(String postId, Post post) {
-        return postDao.updatePost(postId, post);
+    public Boolean updatePost(Post post) {
+        return postDao.updatePost(post);
     }
 }
