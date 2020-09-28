@@ -55,37 +55,58 @@
             return true;
         }
     </script>
-
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
-<div>
-    <h1>회원 가입 폼</h1>
-    <div>
-        <form method="post" action="insert" onsubmit="return isValidate(this);">
-            <div>
-                <label>이름</label>
-                <input type="text" name="name" required>
-            </div>
-            <div>
-                <label>이메일</label>
-                <input type="text" name="email" required/>
-                <button name="emailChk" type="button" onclick="fn_emailCheck(this.form);" value="N" >중복확인</button>
-                <label>아이디로 사용됩니다.</label>
-            </div>
-            <div>
-                <label>비밀번호</label>
-                <input type="password" name="password" required>
-            </div>
-            <div>
-                <label>비밀번호 확인</label>
-                <input type="password" name="password_re" required>
-            </div>
-            <div>
-                <input type="submit" value="회원가입" >
-            </div>
+        <form class="form-horizontal" method="post" action="insert" onsubmit="return isValidate(this);">
+            <fieldset>
+                <div id="legend">
+                    <legend class="">회원 가입</legend>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">이름</label>
+                        <div class="controls">
+                            <input type="text" name="name" class="input-xlarge" required>
+                            <p class="help-block"></p>
+                        </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">이메일</label>
+                    <div class="controls">
+                        <input type="text" name="email" class="input-xlarge" required/>
+                        <button name="emailChk" type="button" onclick="fn_emailCheck(this.form);" value="N" >중복 확인</button>
+                        <p class="help-block">아이디로 사용됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">비밀번호</label>
+                    <div class="controls">
+                        <input type="password" name="password"  class="input-xlarge" required>
+                        <p class="help-block">비밀번호를 입력해주세요.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="control-label">비밀번호 확인</label>
+                    <div class="controls">
+                        <input type="password" name="password_re" class="input-xlarge" required>
+                        <p class="help-block">비밀번호를 한번 더 입력해주세요.</p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" value="회원 가입" class="btn btn-success">
+                    </div>
+                </div>
+            </fieldset>
         </form>
-    </div>
-</div>
+
 
 </body>
 

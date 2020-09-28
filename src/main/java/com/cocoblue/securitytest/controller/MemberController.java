@@ -31,7 +31,7 @@ public class MemberController {
     public String insert(@ModelAttribute Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberService.addMember(member, false);
-        return "redirect:/members/welcome";
+        return "redirect:/board/posts";
     }
 
     @RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
@@ -43,10 +43,5 @@ public class MemberController {
         } else {
             return "false";
         }
-    }
-
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "members/welcome";
     }
 }

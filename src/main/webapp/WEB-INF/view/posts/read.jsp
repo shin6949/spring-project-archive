@@ -105,7 +105,7 @@
         <br>
         <table class="table">
             <thead>
-            댓글[${comment_count}]<br>
+            답글[${comment_count}]<br>
             <br>
             <c:forEach var="row" items="${comments}">
                 <tr class="table-active">
@@ -131,7 +131,7 @@
                 <tr class="table-active">
                     <form action="${pageContext.request.contextPath}/comment/insert/${postId}" method="post" onsubmit="return isValidate(this)">
                         <input type="text" name="content"><br>
-                        <input type="submit" value="댓글 작성">
+                        <input type="submit" value="답글 작성">
                     </form>
                 </tr>
                 </thead>
