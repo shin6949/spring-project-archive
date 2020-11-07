@@ -16,11 +16,6 @@
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <h1>로그인</h1><br>
-        <c:if test="${param.loginfail eq 1}">
-            <h3>로그인에 실패하였습니다.</h3><br>
-        </c:if>
-
-
             <form method="post" action="/authenticate">
                 <input type="text" name="userId" class="fadeIn second" placeholder="****@exapmle.com">
                 <input type="password" name="password" class="fadeIn third" placeholder="비밀번호">

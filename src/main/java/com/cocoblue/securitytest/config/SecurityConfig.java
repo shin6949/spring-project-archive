@@ -1,7 +1,6 @@
 package com.cocoblue.securitytest.config;
 
 import com.cocoblue.securitytest.service.security.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,8 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // Controller에서 @PreAuthorize 사용할려면 필요.
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -46,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .loginProcessingUrl("/authenticate")
                 .failureUrl("/members/loginerror?login_error=1")
-                .defaultSuccessUrl("/board/posts", true)
+                .defaultSuccessUrl("/main", true)
                 .permitAll()
                 .and()
                 .logout()

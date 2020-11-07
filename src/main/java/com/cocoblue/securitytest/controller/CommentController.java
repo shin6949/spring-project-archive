@@ -28,7 +28,7 @@ public class CommentController {
         }
 
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        comment.setWriterId(customUserDetails.getId());
+        comment.setWriterId(customUserDetails.getCno());
         comment.setPostId(postId);
 
         if(commentService.writeComment(comment)) {
@@ -49,7 +49,7 @@ public class CommentController {
         Comment comment = commentService.getComment(Long.toString(commentId));
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(customUserDetails.getId() == comment.getWriterId()) {
+        if(customUserDetails.getCno() == comment.getWriterId()) {
             if(commentService.deleteComment(Long.toString(commentId))) {
                 // 댓글 삭제가 완료되면.
                 model.addAttribute("result", "Success");

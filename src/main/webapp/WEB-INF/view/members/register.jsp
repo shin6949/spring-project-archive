@@ -8,13 +8,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <SCRIPT type="text/javascript">
         function fn_emailCheck(obj) {
-            if(obj.email.value === "") {
+            if(obj.id.value === "") {
                 alert("이메일을 입력하세요.");
                 return false
             }
 
             const form = {
-                email: obj.email.value
+                id: obj.id.value
             }
 
             $.ajax({
@@ -26,7 +26,7 @@
                 success : function(data){
                     if(data) {
                         obj.emailChk.setAttribute("value", "Y")
-                        obj.email.readOnly = true;
+                        obj.id.readOnly = true;
                         obj.emailChk.disabled = true;
 
                         alert("사용가능한 아이디입니다.");
@@ -77,15 +77,15 @@
             <div class="control-group">
                 <label class="control-label">성별</label>
                 <div class="controls">
-                    <input type='radio' name='gender' value='male' />남
-                    <input type='radio' name='gender' value='female' />여
+                    <input type='radio' name='gender' value='true' />남
+                    <input type='radio' name='gender' value='false' />여
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">이메일</label>
                 <div class="controls">
-                    <input type="text" name="email" class="input-xlarge" required/>
+                    <input type="text" name="id" class="input-xlarge" required/>
                     <button name="emailChk" type="button" onclick="fn_emailCheck(this.form);" value="N" >중복 확인</button>
                     <p class="help-block">아이디로 사용됩니다.</p>
                 </div>
@@ -94,7 +94,7 @@
             <div class="control-group">
                 <label class="control-label">생년월일</label>
                 <div class="controls">
-                    <input type="date" name="birth" value="xxx" min="yyy" max="zzz" required>
+                    <input type="date" name="birthday" value="xxx" min="yyy" max="zzz" required>
                 </div>
             </div>
 

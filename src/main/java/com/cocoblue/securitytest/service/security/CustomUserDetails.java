@@ -1,14 +1,15 @@
 package com.cocoblue.securitytest.service.security;
 
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@ToString
 public class CustomUserDetails implements UserDetails {
-    private long id;
-    private String email;
-    private String name;
+    private long cno;
+    private String id;
     private String password;
     private boolean isEnabled;
     private boolean isAccountNonExpired;
@@ -16,33 +17,25 @@ public class CustomUserDetails implements UserDetails {
     private boolean isCredentialsNonExpired;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public long getId() {
+    public long getCno() {
+        return cno;
+    }
+
+    public void setCno(long cno) {
+        this.cno = cno;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
     public String getUsername() {
-        return email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return id;
     }
 
     @Override

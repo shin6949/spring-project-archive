@@ -15,6 +15,14 @@
     <a href="${pageContext.request.contextPath}/board/posts">
         <h2>문의 게시판</h2>
     </a>
+    <br>
+    <a href="">
+        <h2>예약하기</h2>
+    </a>
+    <br>
+    <a href="">
+        <h2>예약관리</h2>
+    </a>
 </c:if>
 
 <c:if test="${loginedId eq null}">

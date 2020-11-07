@@ -1,6 +1,5 @@
 package com.cocoblue.securitytest.service.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +12,11 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    UserDbService userdbService;
+    private final UserDbService userdbService;
+
+    public CustomUserDetailsService(UserDbService userDbService) {
+        this.userdbService = userDbService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,9 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         CustomUserDetails customUserDetails = new CustomUserDetails();
+        customUserDetails.setCno(customUser.getCno());
         customUserDetails.setId(customUser.getId());
-        customUserDetails.setName(customUser.getName());
-        customUserDetails.setEmail(customUser.getLoginUserId());
         customUserDetails.setPassword(customUser.getPassword());
 
         List<UserRoleEntity> customRoles = userdbService.getUserRoles(username);
@@ -42,6 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         customUserDetails.setAccountNonExpired(true);
         customUserDetails.setAccountNonLocked(true);
         customUserDetails.setCredentialsNonExpired(true);
+
         return customUserDetails;
     }
 }

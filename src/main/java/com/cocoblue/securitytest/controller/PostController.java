@@ -1,14 +1,16 @@
 package com.cocoblue.securitytest.controller;
 
 import com.cocoblue.securitytest.dto.Comment;
+import com.cocoblue.securitytest.dto.Customer;
 import com.cocoblue.securitytest.dto.Post;
 import com.cocoblue.securitytest.service.CommentService;
+import com.cocoblue.securitytest.service.CustomerService;
+import com.cocoblue.securitytest.service.PostService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.cocoblue.securitytest.service.PostService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,12 +18,14 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/board")
 public class PostController {
-    PostService postService;
-    CommentService commentService;
+    private final PostService postService;
+    private final CommentService commentService;
+    private final CustomerService customerService;
 
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService, CommentService commentService, CustomerService customerService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.customerService = customerService;
     }
 
     @RequestMapping("/posts")
@@ -106,7 +110,7 @@ public class PostController {
 
             // 작성자 = 수정자인지 체크
             CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(customUserDetails.getId() != post.getWriterId()) {
+            if(customUserDetails.getCno() != post.getWriterId()) {
                 return "posts/write";
             }
 
@@ -120,7 +124,7 @@ public class PostController {
     @PostMapping("insertpost")
     public String writePost(@ModelAttribute Post post) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        post.setWriterId(customUserDetails.getId());
+        post.setWriterId(customUserDetails.getCno());
         post.setBoardId(1);
         post.setViewNumber(0);
         post.setWriteTime(LocalDateTime.now());
@@ -139,7 +143,7 @@ public class PostController {
         Post post = postService.getPost(postId);
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(customUserDetails.getId() == post.getWriterId()) {
+        if(customUserDetails.getCno() == post.getWriterId()) {
             if(postService.deletePost(postId)) {
                 // 게시글 삭제가 완료되면.
                 model.addAttribute("result", "Success");
@@ -170,14 +174,14 @@ public class PostController {
     }
 
     private Model addLoginImf(Model model) {
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
+        Customer customer = customerService.getLoginUser();
+
+        if(customer == null) {
             return model;
         }
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        model.addAttribute("loginedId", customUserDetails.getId());
-        model.addAttribute("loginedName", customUserDetails.getName());
+        model.addAttribute("loginedId", customer.getId());
+        model.addAttribute("loginedName", customer.getName());
 
         return model;
     }
