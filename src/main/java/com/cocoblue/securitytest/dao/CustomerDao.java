@@ -67,18 +67,17 @@ public class CustomerDao {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
 
-        List<Map<String, Object>> queryResult = jdbc.queryForList(CustomerDaoSqls.USER_COUNT_BY_EMAIL, map);
+        List<Map<String, Object>> queryResult = jdbc.queryForList(CustomerDaoSqls.USER_COUNT_BY_ID, map);
 
         return queryResult.isEmpty();
     }
 
     public Customer getLoginUser() {
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
             return null;
         }
 
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return getCustomerByCno(customUserDetails.getCno());
     }
 }

@@ -39,13 +39,14 @@
 </div>
 
 <div>
-    <h1>게시글 리스트</h1>
+    <h1>문의 게시판</h1><br>
+    <p>문의 사항이 있으실 경우 이 게시판에 작성해주세요.</p>
 </div>
 
 <div>
     <c:if test="${param.keyword ne null}">
         <c:if test="${searchStatus eq 'Success'}">
-            ${param.keyword}에 대한 검색 결과입니다. <a href="${pageContext.request.contextPath}/board/posts">돌아가기</a>
+            ${param.keyword}에 대한 검색 결과입니다. <a href="${pageContext.request.contextPath}/board/">돌아가기</a>
         </c:if>
 
         <c:if test="${searchStatus ne 'Success'}">
@@ -56,16 +57,14 @@
 
 <table class="table table-striped">
     <tr>
-        <td>게시판</td>
         <td>제목</td>
         <td>작성자</td>
         <td>작성일</td>
         <td>조회수</td>
     </tr>
-    <c:forEach var="row" items="${posts}">
+    <c:forEach var="row" items="${boards}">
         <tr>
-            <td>${row.boardName}</td>
-            <td><a href="read/${row.id}">${row.title}</a></td>
+            <td><a href="read/${row.postId}">${row.title}</a></td>
             <td>${row.writerName}</td>
             <td>${row.writeTimeString}</td>
             <td>${row.viewNumber}</td>
@@ -79,17 +78,17 @@
         </c:if>
 
         <c:if test="${num ne nowPage && param.keyword eq null}">
-            <a href="${pageContext.request.contextPath}/board/posts?page=${num}">${num} </a>
+            <a href="${pageContext.request.contextPath}/board/?page=${num}">${num} </a>
         </c:if>
 
         <c:if test="${num ne nowPage && param.keyword ne null}">
-            <a href="${pageContext.request.contextPath}/board/posts?page=${num}&keyword=${param.keyword}">${num} </a>
+            <a href="${pageContext.request.contextPath}/board/?page=${num}&keyword=${param.keyword}">${num} </a>
         </c:if>
     </c:forEach>
 </div>
 <a href="/board/write"><button type="button" class="btn btn-secondary">글쓰기</button></a>
 <center>
-    <form method="get" action="${pageContext.request.contextPath}/board/posts">
+    <form method="get" action="${pageContext.request.contextPath}/board/">
         <div>
             <input type="text" name="keyword" required>
             <input type="submit" class="btn btn-primary btn-sm" value="검색">

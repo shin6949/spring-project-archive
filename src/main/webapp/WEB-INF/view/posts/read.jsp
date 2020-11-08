@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>${post.title}</title>
+    <title>${board.title}</title>
     <script type="text/javascript">
         function isValidate(obj) {
             if (obj.content.value === "") {
@@ -34,11 +34,11 @@
 <body>
 
 <div style="width: 100%; text-align: right">
-    <c:if test="${loginedId ne null}">
-        <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
+    <c:if test="${loginCno ne null}">
+        <h4>${loginName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
     </c:if>
 
-    <c:if test="${loginedId eq null}">
+    <c:if test="${loginCno eq null}">
         <table class="table" style="background: #FFFFFF">
             <thead>
             <tr class="table-active" style="background: #FFFFFF">
@@ -65,47 +65,49 @@
         <table class="table">
             <thead>
             <tr class="table-active">
-                <th scope="col" style="width: 60%">제목 : <c:out value="${post.title}"/><br>
-                    작성자 : <c:out value="${post.writerName}"/></th>
-                <th scope="col" style="width: 40%" class="text-right">조회 : <c:out value="${post.viewNumber}"/>
-                    <br>작성시간 : <c:out value="${post.writeTimeString}"/></th>
+                <th scope="col" style="width: 60%">제목 : <c:out value="${board.title}"/><br>
+                    작성자 : <c:out value="${board.writerName}"/></th>
+                <th scope="col" style="width: 40%" class="text-right">조회 : <c:out value="${board.viewNumber}"/>
+                    <br>작성시간 : <c:out value="${board.writeTimeString}"/></th>
             </tr>
             </thead>
 
             <tbody>
             <tr>
                 <td>
-                    <pre>${post.content}</pre>
+                    <pre>${board.content}</pre>
                 </td>
             </tr>
             </tbody>
         </table>
         <br>
-        <c:if test="${loginedId eq post.writerId}">
+        <c:if test="${loginCno eq board.cno}">
             <div class="btn-toolbar" role="toolbar" style="width: 100%;">
                 <div class="btn-group mr-2" role="group">
-                    <a href="/board/posts">
+                    <a href="${pageContext.request.contextPath}/board/">
                         <button type="button" class="btn btn-secondary">목록</button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/board/write?mode=modify&postId=${post.id}">
+                    <a href="${pageContext.request.contextPath}/board/write?mode=modify&postId=${board.postId}">
                         <button type="button" class="btn btn-secondary">수정</button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/board/delete/${post.id}">
+                    <a href="${pageContext.request.contextPath}/board/delete/${board.postId}">
                         <button type="button" class="btn btn-secondary">삭제</button>
                     </a>
                 </div>
             </div>
         </c:if>
-        <c:if test="${loginedId ne post.writerId}">
-            <a href="/board/posts">
+        <c:if test="${loginCno ne board.cno}">
+        <div class="btn-toolbar" role="toolbar" style="width: 100%;">
+            <a href="${pageContext.request.contextPath}/board/">
                 <button type="button" class="btn btn-secondary">목록</button>
             </a>
+        </div>
             <br>
         </c:if>
         <br>
         <table class="table">
             <thead>
-            답글[${comment_count}]<br>
+            댓글[${comment_count}]<br>
             <br>
             <c:forEach var="row" items="${comments}">
                 <tr class="table-active">
@@ -115,9 +117,9 @@
                     <br>
                 </tr>
 
-                <c:if test="${loginedId eq row.writerId}">
+                <c:if test="${loginCno eq row.writerId}">
                     <div style="width: 100%;">
-                        <a href="${pageContext.request.contextPath}/comment/delete/${row.id}">
+                        <a href="${pageContext.request.contextPath}/comment/delete/${row.commentId}">
                             <button type="button" class="btn btn-secondary">삭제</button>
                         </a>
                     </div>
@@ -125,7 +127,7 @@
             </c:forEach>
             </thead>
         </table>
-        <c:if test="${loginedId ne null}">
+        <c:if test="${loginCno ne null}">
             <table>
                 <thead>
                 <tr class="table-active">

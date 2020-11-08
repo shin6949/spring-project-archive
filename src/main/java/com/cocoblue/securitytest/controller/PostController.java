@@ -1,11 +1,11 @@
 package com.cocoblue.securitytest.controller;
 
+import com.cocoblue.securitytest.dto.Board;
 import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.dto.Customer;
-import com.cocoblue.securitytest.dto.Post;
+import com.cocoblue.securitytest.service.BoardService;
 import com.cocoblue.securitytest.service.CommentService;
 import com.cocoblue.securitytest.service.CustomerService;
-import com.cocoblue.securitytest.service.PostService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,17 +18,17 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/board")
 public class PostController {
-    private final PostService postService;
+    private final BoardService boardService;
     private final CommentService commentService;
     private final CustomerService customerService;
 
-    public PostController(PostService postService, CommentService commentService, CustomerService customerService) {
-        this.postService = postService;
+    public PostController(BoardService boardService, CommentService commentService, CustomerService customerService) {
+        this.boardService = boardService;
         this.commentService = commentService;
         this.customerService = customerService;
     }
 
-    @RequestMapping("/posts")
+    @RequestMapping("/")
     public String getPostList(Model model, @RequestParam(name = "page", required = false) Integer page,
                                             @RequestParam(name = "keyword", required = false) String keyword) {
 
@@ -37,34 +37,34 @@ public class PostController {
             page = 1;
         }
 
-        List<Post> posts;
+        List<Board> boards;
 
         if(keyword != null) {
             model.addAttribute("searchKeyword", keyword);
 
-            posts = postService.getPostsByKeyword("자유 게시판", keyword, page - 1);
-            model.addAttribute("pagesCount", getTotalPage(postService.getPostsCountByKeyword("자유 게시판", keyword)));
+            boards = boardService.getPostsByKeyword(keyword, page - 1);
+            model.addAttribute("pagesCount", getTotalPage(boardService.getPostsCountByKeyword(keyword)));
             model.addAttribute("searchStatus", "Success");
 
             // 검색 결과가 없을 경우, 1페이지를 갖고 옴.
-            if(posts.size() == 0) {
+            if(boards.size() == 0) {
                 model.addAttribute("searchStatus", "Fail");
 
-                posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
-                model.addAttribute("pagesCount", getTotalPage(postService.getPostsCount("자유 게시판")));
+                boards = boardService.getPostsByPage(0);
+                model.addAttribute("pagesCount", getTotalPage(boardService.getPostsCount()));
             }
         } else {
-            posts = postService.getPostsByPage("자유 게시판", page - 1);
+            boards = boardService.getPostsByPage(page - 1);
 
             // 해당 페이지에 글이 없을 경우 1페이지를 가져옴.
-            if(posts.size() == 0) {
-                posts = postService.getPostsByPage("자유 게시판", Integer.parseInt("0"));
+            if(boards.size() == 0) {
+                boards = boardService.getPostsByPage(0);
             }
 
-            model.addAttribute("pagesCount", getTotalPage(postService.getPostsCount("자유 게시판")));
+            model.addAttribute("pagesCount", getTotalPage(boardService.getPostsCount()));
         }
 
-        model.addAttribute("posts", posts);
+        model.addAttribute("boards", boards);
         model.addAttribute("nowPage", page);
 
         model = addLoginImf(model);
@@ -72,19 +72,19 @@ public class PostController {
         return "posts/posts";
     }
 
-    @GetMapping("read/{id}")
-    public String getPost(@PathVariable String id, Model model) {
-        Post post = postService.getPost(id);
-        model.addAttribute("post", post);
-        long commentCount = commentService.getCommentCount(id);
+    @GetMapping("read/{postId}")
+    public String getPost(@PathVariable String postId, Model model) {
+        Board board = boardService.getPost(postId);
+        model.addAttribute("board", board);
+        long commentCount = commentService.getCommentCount(postId);
         model.addAttribute("comment_count", commentCount);
-        model.addAttribute("postId", id);
+        model.addAttribute("postId", postId);
 
         // 조회수 증가
-        postService.increaseViewNum(id);
+        boardService.increaseViewNum(postId);
 
         if(commentCount != 0) {
-            List<Comment> comments = commentService.getComments(id);
+            List<Comment> comments = commentService.getComments(postId);
             model.addAttribute("comments", comments);
         }
 
@@ -105,12 +105,12 @@ public class PostController {
                 return "posts/write";
             }
 
-            Post post = postService.getPost(postId);
-            model.addAttribute("post", post);
+            Board board = boardService.getPost(postId);
+            model.addAttribute("board", board);
 
             // 작성자 = 수정자인지 체크
             CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(customUserDetails.getCno() != post.getWriterId()) {
+            if(customUserDetails.getCno() != board.getCno()) {
                 return "posts/write";
             }
 
@@ -122,15 +122,13 @@ public class PostController {
     }
 
     @PostMapping("insertpost")
-    public String writePost(@ModelAttribute Post post) {
+    public String writePost(@ModelAttribute Board board) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        post.setWriterId(customUserDetails.getCno());
-        post.setBoardId(1);
-        post.setViewNumber(0);
-        post.setWriteTime(LocalDateTime.now());
+        board.setCno(customUserDetails.getCno());
+        board.setWriteTime(LocalDateTime.now());
 
-        postService.writePost(post);
-        return "redirect:/board/posts";
+        boardService.writePost(board);
+        return "redirect:/board/";
     }
 
     @RequestMapping("delete/{postId}")
@@ -140,11 +138,11 @@ public class PostController {
             model.addAttribute("result", "No Login Value");
         }
 
-        Post post = postService.getPost(postId);
+        Board board = boardService.getPost(postId);
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(customUserDetails.getCno() == post.getWriterId()) {
-            if(postService.deletePost(postId)) {
+        if(customUserDetails.getCno() == board.getCno()) {
+            if(boardService.deletePost(postId)) {
                 // 게시글 삭제가 완료되면.
                 model.addAttribute("result", "Success");
             } else {
@@ -159,13 +157,13 @@ public class PostController {
     }
 
     @RequestMapping("modifypost")
-    public String updatePost(@ModelAttribute Post post, Model model, @RequestParam(name = "postId") String postId) {
-        post.setId(Long.parseLong(postId));
+    public String updatePost(@ModelAttribute Board board, Model model, @RequestParam(name = "postId") String postId) {
+        board.setPostId(Long.parseLong(postId));
 
-        if(postService.updatePost(post)) {
+        if(boardService.updatePost(board)) {
             // 게시글 변경이 완료되면.
             model.addAttribute("result", "Success");
-            model.addAttribute("postId", post.getId());
+            model.addAttribute("postId", board.getPostId());
         } else {
             model.addAttribute("result", "Fail");
         }
@@ -180,8 +178,8 @@ public class PostController {
             return model;
         }
 
-        model.addAttribute("loginedId", customer.getId());
-        model.addAttribute("loginedName", customer.getName());
+        model.addAttribute("loginCno", customer.getCno());
+        model.addAttribute("loginName", customer.getName());
 
         return model;
     }

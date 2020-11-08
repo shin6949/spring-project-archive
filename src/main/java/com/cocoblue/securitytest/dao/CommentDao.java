@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +25,7 @@ public class CommentDao {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
         this.insertAction = new SimpleJdbcInsert(dataSource)
                 .withTableName("comment")
-                .usingGeneratedKeyColumns("id");
+                .usingGeneratedKeyColumns("comment_id");
     }
 
     public long getCommentCount(String postId) {

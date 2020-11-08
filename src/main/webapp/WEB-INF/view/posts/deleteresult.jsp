@@ -29,7 +29,7 @@
 
 <c:if test="${result eq 'Success'}">
     <script>
-        location.href="/board/posts";
+        location.href="/board/";
     </script>
 </c:if>
 </body>

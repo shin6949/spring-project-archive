@@ -16,9 +16,9 @@
         <form action="${pageContext.request.contextPath}/board/insertpost" method="post">
     </c:if>
 
-        <label>제목<input type="text" id="title" name="title" value="${post.title}"></label><br>
+        <label>제목<input type="text" id="title" name="title" value="${board.title}"></label><br>
         <label>내용<br>
-        <textarea id="content" name="content">${post.content}</textarea>
+        <textarea id="content" name="content">${board.content}</textarea>
 
         <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
         <script>
