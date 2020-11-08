@@ -12,11 +12,11 @@
 </head>
 <body>
 <div style="width: 100%; text-align: right">
-    <c:if test="${loginedId ne null}">
-        <h4>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
+    <c:if test="${loginCno ne null}">
+        <h4>${loginName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
     </c:if>
 
-    <c:if test="${loginedId eq null}">
+    <c:if test="${loginCno eq null}">
         <table class="table" style="background: #FFFFFF">
             <thead>
             <tr class="table-active" style="background: #FFFFFF">
@@ -86,7 +86,7 @@
         </c:if>
     </c:forEach>
 </div>
-<a href="/board/write"><button type="button" class="btn btn-secondary">글쓰기</button></a>
+<a href="${pageContext.request.contextPath}/board/write"><button type="button" class="btn btn-secondary">글쓰기</button></a>
 <center>
     <form method="get" action="${pageContext.request.contextPath}/board/">
         <div>

@@ -67,7 +67,7 @@ public class PostController {
         model.addAttribute("boards", boards);
         model.addAttribute("nowPage", page);
 
-        model = addLoginImf(model);
+        addLoginImf(model);
 
         return "posts/posts";
     }
@@ -88,7 +88,7 @@ public class PostController {
             model.addAttribute("comments", comments);
         }
 
-        model = addLoginImf(model);
+        addLoginImf(model);
 
         return "posts/read";
     }
@@ -171,17 +171,15 @@ public class PostController {
         return "posts/updateresult";
     }
 
-    private Model addLoginImf(Model model) {
+    private void addLoginImf(Model model) {
         Customer customer = customerService.getLoginUser();
 
         if(customer == null) {
-            return model;
+            return;
         }
 
         model.addAttribute("loginCno", customer.getCno());
         model.addAttribute("loginName", customer.getName());
-
-        return model;
     }
 
     private long getTotalPage(long postsCount) {

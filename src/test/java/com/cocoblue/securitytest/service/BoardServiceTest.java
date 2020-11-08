@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -17,25 +18,25 @@ public class BoardServiceTest {
     @Autowired
     BoardService boardService;
 
-//    @Test
-//    public void writeTest() {
-//        Board board = new Board();
-//        board.setCno(7);
-//        board.setTitle("테스트");
-//        board.setWriteTime(LocalDateTime.now());
-//        board.setContent("테스트입니다!");
-//        System.out.println(board.toString());
-//
-//        boardService.writePost(board);
-//    }
+    @Test
+    public void writeTest() {
+        Board board = new Board();
+        board.setCno(7);
+        board.setTitle("테스트");
+        board.setWriteTime(LocalDateTime.now());
+        board.setContent("테스트입니다!");
+        System.out.println(board.toString());
 
-//    @Test
-//    public void getPostTest() {
-//        String postId = "1";
-//
-//        Board board = boardService.getPost(postId);
-//        System.out.println(board.toString());
-//    }
+        boardService.writePost(board);
+    }
+
+    @Test
+    public void getPostTest() {
+        String postId = "1";
+
+        Board board = boardService.getPost(postId);
+        System.out.println(board.toString());
+    }
 
     @Test
     public void getPostAllTest() {
