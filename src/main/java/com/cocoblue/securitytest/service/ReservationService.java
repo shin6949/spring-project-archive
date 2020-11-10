@@ -10,4 +10,5 @@ public interface ReservationService {
     List<Reservation> getAllReservationByCno(long cno);
     Boolean makeReservation(Reservation reservation);
     Boolean cancelReservation(long rno);
+    List<String> getAvailableDate();
 }

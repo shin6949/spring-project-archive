@@ -62,11 +62,9 @@ public class ReservationDao {
     }
 
     // TODO: 다음날부터 7일 중, 주말을 제외한 날짜를 List<String> 형태로 Return 해야함. (Return 타입 변경 예정)
-    public Map<String, Object> getAvailableDates(long dno) {
-        Map<String, Object> result = new HashMap<String, Object>();
+    public List<String> getAvailableDates(long dno) {
         List<String> availableDatesString = new ArrayList<String>();
 
-        result.put("availableDates", availableDatesString);
-        return result;
+        return availableDatesString;
     }
 }

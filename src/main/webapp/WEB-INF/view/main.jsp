@@ -12,9 +12,6 @@
 <c:if test="${loginedName ne null}">
     <h2>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h2>
     <br>
-    <a href="${pageContext.request.contextPath}/board/">
-        <h2>문의 게시판</h2>
-    </a>
     <br>
     <a href="${pageContext.request.contextPath}/reservation/">
         <h2>예약하기</h2>
@@ -34,9 +31,6 @@
         <h2>회원가입</h2>
     </a>
     <br>
-    <a href="${pageContext.request.contextPath}/board/">
-        <h2>문의 게시판</h2>
-    </a>
 </c:if>
 
 </body>

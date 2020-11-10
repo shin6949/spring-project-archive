@@ -38,7 +38,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="Spring-5.2.3.RELEASE" level="project" />
-    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" exported="" name="jquery" level="application" />
     <orderEntry type="library" name="ckeditor" level="application" />
     <orderEntry type="library" name="jquery-3.5.1.slim" level="application" />
     <orderEntry type="library" name="popper.js" level="application" />
@@ -81,6 +81,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-dbcp2:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.6.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.16" level="project" />
-    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="Maven: com.ibm.icu:icu4j:68.1" level="project" />
   </component>
 </module>
