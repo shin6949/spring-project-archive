@@ -9,23 +9,20 @@
     <title>메인 페이지</title>
 </head>
 <body>
-<c:if test="${loginedId ne null}">
+<c:if test="${loginedName ne null}">
     <h2>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h2>
     <br>
-    <a href="${pageContext.request.contextPath}/board/">
-        <h2>문의 게시판</h2>
-    </a>
     <br>
-    <a href="">
+    <a href="${pageContext.request.contextPath}/reservation/">
         <h2>예약하기</h2>
     </a>
     <br>
-    <a href="">
-        <h2>예약관리</h2>
+    <a href="${pageContext.request.contextPath}/mypage">
+        <h2>마이 페이지</h2>
     </a>
 </c:if>
 
-<c:if test="${loginedId eq null}">
+<c:if test="${loginedName eq null}">
     <a href="${pageContext.request.contextPath}/login">
         <h2>로그인</h2>
     </a>
@@ -34,9 +31,6 @@
         <h2>회원가입</h2>
     </a>
     <br>
-    <a href="${pageContext.request.contextPath}/board/">
-        <h2>문의 게시판</h2>
-    </a>
 </c:if>
 
 </body>

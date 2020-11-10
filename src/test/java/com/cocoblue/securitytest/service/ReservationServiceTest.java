@@ -8,14 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class, SecurityConfig.class})
-public class CommentServiceImplTest {
+public class ReservationServiceTest {
     @Autowired
-    CommentServiceImpl commentServiceImpl;
+    HolidayService holidayService;
+
+    @Autowired
+    ReservationService reservationService;
 
     @Test
-    public void getCommentCountTest() {
-        System.out.println(commentServiceImpl.getCommentCount("2"));
+    public void getAvailableDateTest() {
+        System.out.println(reservationService.getAvailableDate());
     }
 }
