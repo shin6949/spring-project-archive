@@ -67,7 +67,7 @@ public class CustomerDao {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
 
-        List<Map<String, Object>> queryResult = jdbc.queryForList(CustomerDaoSqls.USER_COUNT_BY_ID, map);
+        List<Map<String, Object>> queryResult = jdbc.queryForList(CustomerDaoSqls.SELECT_ALL_BY_ID, map);
 
         return queryResult.isEmpty();
     }
