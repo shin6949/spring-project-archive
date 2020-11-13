@@ -25,7 +25,7 @@
 
                 success : function(data){
                     if(data) {
-                        obj.emailChk.setAttribute("value", "Y")
+                        obj.emailChk.setAttribute("value", "true")
                         obj.id.readOnly = true;
                         obj.emailChk.disabled = true;
 
