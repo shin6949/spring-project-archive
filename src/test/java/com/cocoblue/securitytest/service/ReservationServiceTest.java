@@ -2,6 +2,7 @@ package com.cocoblue.securitytest.service;
 
 import com.cocoblue.securitytest.config.ApplicationConfig;
 import com.cocoblue.securitytest.config.SecurityConfig;
+import com.cocoblue.securitytest.dto.Doctor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,13 @@ public class ReservationServiceTest {
     @Autowired
     ReservationService reservationService;
 
+//    @Test
+//    public void getAvailableDateTest() {
+//        System.out.println(reservationService.getAvailableDate());
+//    }
+
     @Test
-    public void getAvailableDateTest() {
-        System.out.println(reservationService.getAvailableDate());
+    public void configureAvailableTimeTest() {
+        System.out.println("result: " + reservationService.configureAvailableTime("2020-11-12", new Doctor(1, "김민준", 1)));
     }
 }

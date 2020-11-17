@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Data
 @ToString
@@ -20,6 +21,14 @@ public class Reservation {
     private long cno;
     private Boolean confirmed;
     private String symptom;
+
+    public Reservation(LocalDateTime reservationTime, String doctor, String symptom, long cno, Boolean confirmed) {
+        this.reservationTime = reservationTime;
+        this.doctorNo = Long.parseLong(doctor);
+        this.symptom = symptom;
+        this.confirmed = confirmed;
+        this.cno = cno;
+    }
 
     public void setReservationTime(LocalDateTime reservationTime) {
         this.reservationTime = reservationTime;
