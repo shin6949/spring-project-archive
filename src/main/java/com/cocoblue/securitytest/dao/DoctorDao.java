@@ -24,7 +24,7 @@ public class DoctorDao {
         return jdbc.query(DoctorDaoSqls.SELECT_ALL, new HashMap<>(), rowMapper);
     }
 
-    public List<Doctor> getAllDoctorsByDepartCode(String departmentCode) {
+    public List<Doctor> getAllDoctorsByDepartCode(long departmentCode) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("dno", departmentCode);
 

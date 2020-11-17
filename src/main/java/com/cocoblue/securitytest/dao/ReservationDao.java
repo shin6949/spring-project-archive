@@ -1,15 +1,19 @@
 package com.cocoblue.securitytest.dao;
 
 import com.cocoblue.securitytest.dto.Reservation;
+import com.cocoblue.securitytest.service.security.CustomUserDetails;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +36,11 @@ public class ReservationDao {
         return jdbc.query(ReservationDaoSqls.SELECT_ALL_CONFIRMED_RESERVATION, new HashMap<String, Object>(), rowMapper);
     }
 
-    public List<Reservation> getAllConfirmedReservationByDoctorNo(long doctorNo) {
+    public List<Reservation> getAllConfirmedReservationByDoctorNo(long doctorNo, LocalDateTime localDateTime) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("doctorNo", doctorNo);
+        params.put("today", localDateTime);
+
 
         return jdbc.query(ReservationDaoSqls.SELECT_ALL_CONFIRMED_RESERVATION_BY_DOCTOR_NO, params, rowMapper);
     }
@@ -59,12 +65,5 @@ public class ReservationDao {
 
         // Update가 완료되면 true
         return jdbc.update(ReservationDaoSqls.UPDATE_RESERVATION_CONFIRMED_FALSE, map) > 0;
-    }
-
-    // TODO: 다음날부터 7일 중, 주말을 제외한 날짜를 List<String> 형태로 Return 해야함. (Return 타입 변경 예정)
-    public List<String> getAvailableDates(long dno) {
-        List<String> availableDatesString = new ArrayList<String>();
-
-        return availableDatesString;
     }
 }

@@ -20,7 +20,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> getAllDoctorsByDepartCode(String departmentCode) {
+    public List<Doctor> getAllDoctorsByDepartCode(long departmentCode) {
         return doctorDao.getAllDoctorsByDepartCode(departmentCode);
     }
 
