@@ -27,7 +27,8 @@ public class DoctorServiceTest {
 
     @Test
     public void getAllDoctorsByDepartCodeTest() throws Exception {
-        for(Doctor doctor : doctorService.getAllDoctorsByDepartCode("1")) {
+        System.out.println(doctorService.getAllDoctorsByDepartCode(1));
+        for(Doctor doctor : doctorService.getAllDoctorsByDepartCode(1)) {
             assertEquals(1, doctor.getDno());
         }
     }
