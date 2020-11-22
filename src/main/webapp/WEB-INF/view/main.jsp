@@ -10,7 +10,7 @@
 </head>
 <body>
 <c:if test="${loginedName ne null}">
-    <h2>${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h2>
+    <h4 style="float: right;">${loginedName}님 환영합니다. | <a href="${pageContext.request.contextPath}/logout">로그아웃</a></h4>
     <br>
     <br>
     <a href="${pageContext.request.contextPath}/reservation/">
