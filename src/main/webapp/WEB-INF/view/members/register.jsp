@@ -52,6 +52,7 @@
                 return false;
             }
 
+            alert("회원가입 완료.")
             return true;
         }
     </script>
