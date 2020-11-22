@@ -1,0 +1,6 @@
+@charset "utf-8";
+.text1{
+    text-align: center;
+}
+a.link1{color:blue}
+a.link1:hover{color:black}
