@@ -18,7 +18,7 @@
         <td>작성자</td>
         <td>작성일</td>
         <td>조회수</td>
-        <td>예약시간</td>
+
     </tr>
     <c:forEach var="row" items="${getall}">
         <tr>
