@@ -17,11 +17,11 @@
     <br>
     <br>
     <div class="text1">
-    <a class="link1" href="${pageContext.request.contextPath}/reservation/">
+    <a class="btn hover2" href="${pageContext.request.contextPath}/reservation/">
         <h2>예약하기</h2>
     </a>
     <br>
-    <a class="link1" href="${pageContext.request.contextPath}/mypage">
+    <a class="btn hover2" href="${pageContext.request.contextPath}/mypage">
         <h2>마이 페이지</h2>
     </a>
     </div>
