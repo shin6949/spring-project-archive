@@ -28,12 +28,13 @@
 </c:if>
 
 <c:if test="${loginedName eq null}">
+    <br><br>
     <div class="text1">
-    <a class="link1" href="${pageContext.request.contextPath}/login">
+    <a class="btn hover2" href="${pageContext.request.contextPath}/login">
         <h2>로그인</h2>
     </a>
     <br>
-    <a class="link1" href="${pageContext.request.contextPath}/members/register">
+    <a class="btn hover2" href="${pageContext.request.contextPath}/members/register">
         <h2>회원가입</h2>
     </a>
     <br>
