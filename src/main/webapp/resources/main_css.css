@@ -13,17 +13,17 @@ a.link1:hover{color:black}
     width:200px;
     height: 50px;
     line-height: 40px;
-    border: 1px #39ace7 solid;
+    border: 1px dodgerblue solid;
     margin: 15px auto;
-    background-color: #39ace7;
+    background-color: ;
     text-align: center;
     cursor: pointer;
 
     color: black;
     transition:all 0.9s, color 0.3s;
 }
-.btn:hover{color:#ffffff}
+.btn:hover{color:white}
 .hover2:hover{
-    box-shadow: 200px 0 0 0 rgba(0,0,0,0.25) inset,
-               -200px 0 0 0 rgba(0,0,0,0.25) inset;
+    box-shadow: 200px 0 0 0 dodgerblue inset,
+               -200px 0 0 0 dodgerblue inset;
 }
