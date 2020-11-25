@@ -26,4 +26,12 @@ public class ReservationView {
         // View에서 LocalDateTime를 String로 변환하는데 애로사항이 있어 클래스에서 먼저 설정함.
         reservationTimeString = reservationTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
+
+    public boolean isCancelable(){
+        LocalDateTime currentTime = LocalDateTime.now();
+        if(confirmed){
+            return currentTime.isBefore(reservationTime);
+        }
+        return false;
+    }
 }
