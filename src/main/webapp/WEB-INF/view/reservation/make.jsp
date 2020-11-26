@@ -6,7 +6,6 @@
 <head>
     <title>예약페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <link href="/resources/reservation_css.css" rel="stylesheet" type="text/css">
 
     <%-- 진료 과가 변경되었을 때 생기는 이벤트 --%>
