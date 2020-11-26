@@ -35,6 +35,4 @@ public class MainController {
     public String login() {
         return "members/login";
     }
-
-
 }
