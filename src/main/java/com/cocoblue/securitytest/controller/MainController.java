@@ -35,7 +35,4 @@ public class MainController {
     public String login() {
         return "members/login";
     }
-
-    @GetMapping("/mypage")
-    public String mypage() { return "mypage"; }
 }

@@ -41,12 +41,6 @@ public class ReservationDao {
         return jdbc.query(ReservationDaoSqls.SELECT_ALL_CONFIRMED_RESERVATION_BY_DOCTOR_NO, params, rowMapper);
     }
 
-    public List<Reservation> getAllReservationByCno(long cno) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("cno", cno);
-
-        return jdbc.query(ReservationDaoSqls.SELECT_ALL_RESERVATION_BY_CNO, params, rowMapper);
-    }
 
     public Boolean makeReservation(Reservation reservation) {
         SqlParameterSource params = new BeanPropertySqlParameterSource(reservation);
