@@ -4,3 +4,26 @@
 }
 a.link1{color:blue}
 a.link1:hover{color:black}
+
+.text2{
+
+}
+.btn{
+    display:block;
+    width:200px;
+    height: 50px;
+    line-height: 40px;
+    border: 1px dodgerblue solid;
+    margin: 15px auto;
+    background-color: ;
+    text-align: center;
+    cursor: pointer;
+
+    color: black;
+    transition:all 0.9s, color 0.3s;
+}
+.btn:hover{color:white}
+.hover2:hover{
+    box-shadow: 200px 0 0 0 dodgerblue inset,
+               -200px 0 0 0 dodgerblue inset;
+}
