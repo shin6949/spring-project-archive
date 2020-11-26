@@ -37,11 +37,6 @@ public class ReservationServiceImpl implements  ReservationService{
     }
 
     @Override
-    public List<Reservation> getAllReservationByCno(long cno) {
-        return reservationDao.getAllReservationByCno(cno);
-    }
-
-    @Override
     public Boolean makeReservation(Reservation reservation) {
         return reservationDao.makeReservation(reservation);
     }

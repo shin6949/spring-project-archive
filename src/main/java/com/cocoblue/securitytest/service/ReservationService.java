@@ -10,7 +10,6 @@ import java.util.List;
 public interface ReservationService {
     List<Reservation> getAllConfirmedReservation();
     List<Reservation> getAllConfirmedReservationByDoctorNo(long doctorNo, LocalDateTime localDateTime);
-    List<Reservation> getAllReservationByCno(long cno);
     Boolean makeReservation(Reservation reservation);
     Boolean cancelReservation(long rno);
     List<AvailableDateDto> getAvailableDate();
