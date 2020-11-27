@@ -21,9 +21,11 @@ public class ReservationViewDao {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<ReservationView> getAllConfiremdReservationByCno(long cno){
+    public List<ReservationView> getAllReservationByCno(long cno, int page){
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("cno",cno);
+        params.put("start", (page-1) * 4);
+        params.put("end", (page-1) * 4 + 4);
         return jdbc.query(ReservationViewDaoSqls.SELECT_ALL_RESERVATION_BY_CNO,params,rowMapper);
     }
 
