@@ -4,8 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>예약하기</title>
+    <title>예약페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="/resources/reservation_css.css" rel="stylesheet" type="text/css">
 
     <%-- 진료 과가 변경되었을 때 생기는 이벤트 --%>
     <script>
