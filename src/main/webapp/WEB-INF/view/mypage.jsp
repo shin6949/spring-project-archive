@@ -73,6 +73,17 @@
         </tr>
     </c:forEach>
 </table>
+<div style="text-align: center">
+    <c:forEach var="num" begin="1" end="${pagesCount}">
+    <c:if test="${num eq nowPage}">
+        ${num}
+    </c:if>
+
+    <c:if test="${num ne nowPage}">
+        <a href="${pageContext.request.contextPath}/mypage?page=${num}"> ${num}</a>
+        </c:if>
+        </c:forEach>
+</div>
 <input type="button" value="예약 취소" onclick="cancelReservation();">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"

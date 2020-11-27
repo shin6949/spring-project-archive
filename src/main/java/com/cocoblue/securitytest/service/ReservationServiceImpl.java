@@ -109,4 +109,9 @@ public class ReservationServiceImpl implements  ReservationService{
 
         return result;
     }
+
+    @Override
+    public long getReservationCount(long cno){
+        return reservationDao.getReservationCount(cno);
+    }
 }

@@ -56,4 +56,10 @@ public class ReservationDao {
         // Update가 완료되면 true
         return jdbc.update(ReservationDaoSqls.UPDATE_RESERVATION_CONFIRMED_FALSE, map) > 0;
     }
+
+    public long getReservationCount(long cno){
+        Map<String, Object> map = new HashMap<>();
+        map.put("cno",cno);
+        return (long)jdbc.queryForMap(ReservationDaoSqls.SELECT_COUNT_ALL_RESERVATION_BY_CNO,map).get("reservation_count");
+    }
 }

@@ -14,4 +14,5 @@ public interface ReservationService {
     Boolean cancelReservation(long rno);
     List<AvailableDateDto> getAvailableDate();
     List<String> configureAvailableTime(String dateString, Doctor doctor);
+    long getReservationCount(long cno);
 }
