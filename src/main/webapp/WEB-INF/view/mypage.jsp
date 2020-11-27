@@ -62,7 +62,7 @@
                 <c:if test="${row.isCancelable() eq 'true'}"><input type="radio" name="rnoChecked" value="${row.rno}"></c:if>
                 <c:if test="${row.isCancelable() eq 'false'}"><input type="radio" name="rnoChecked" value="${row.rno}" disabled></c:if>
             </td>
-            <td>${row.reservationTimeString}</td>
+            <td>${row.getReservationTimeString()}</td>
             <td><c:choose>
                 <c:when test="${row.confirmed eq 'true'}">예약됨</c:when>
                 <c:when test="${row.confirmed eq 'false'}">취소됨</c:when>

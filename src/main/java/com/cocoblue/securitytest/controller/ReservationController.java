@@ -10,6 +10,7 @@ import com.cocoblue.securitytest.service.DepartmentService;
 import com.cocoblue.securitytest.service.DoctorService;
 import com.cocoblue.securitytest.service.ReservationService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -155,21 +156,32 @@ public class ReservationController {
 
     @PostMapping(path = "makereservation", produces = "application/x-www-form-urlencoded; charset=utf8")
     public void makeReservation(@RequestBody MultiValueMap<String, String> data, HttpServletResponse response) throws IOException {
+        // Form에서 받은 시간 데이터를 LocalDateTime으로 캐스팅함.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime reservationTime = LocalDateTime.parse(data.get("date").get(0) + " " + data.get("time").get(0), formatter);
 
+        // 현재 로그인 중인 계정의 정보를 받음.
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        // 예약 구성
         Reservation reservation = new Reservation(reservationTime, data.get("doctor").get(0), data.get("symptom").get(0), customUserDetails.getCno(), true);
 
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        if(reservationService.makeReservation(reservation)) {
-            out.println("<script>alert('예약 성공'); location.href='/main';</script>");
-        } else {
-            out.println("<script>alert('예약에 실패했습니다.'); location.href='/reservation/';</script>");
+        try {
+            if(reservationService.makeReservation(reservation)) {
+                out.println("<script>alert('예약 성공'); location.href='/main';</script>");
+            } else {
+                out.println("<script>alert('예약에 실패했습니다.'); location.href='/reservation/';</script>");
+            }
+        // 같은 시간에 동시에 예약한 경우
+        } catch (DuplicateKeyException duplicateKeyException) {
+            out.println("<script>alert('이미 중복된 예약이 있습니다.'); location.href='/reservation/';</script>");
+        } catch (Exception exception) {
+            out.println("<script>alert('서버 오류로 예약이 진행되지 않았습니다.'); location.href='/reservation/';</script>");
         }
+
         out.flush();
     }
 }
