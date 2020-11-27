@@ -1,0 +1,37 @@
+.head_text{
+    text-align: center;
+    margin-top:40px;
+}
+.text3{
+    line-height: 60px;
+    font-size: 20px;
+    margin-left: 10px;
+}
+select{
+    width: 140px;
+    height: 30px;
+    text-align-last: center;
+    appearance: none;
+    -webkit-appearance: button;
+}
+select::-ms-expand{display:none;}
+.btn{
+    font-size: 20px;
+    display:block;
+    width:200px;
+    height: 50px;
+    line-height: 40px;
+    border: 1px limegreen solid;
+    margin: 15px auto;
+    background-color: ;
+    text-align: center;
+    cursor: pointer;
+
+    color: black;
+    transition:all 0.9s, color 0.3s;
+}
+.btn:hover{color:white}
+.hover3:hover{
+    box-shadow: 200px 0 0 0 limegreen inset,
+               -200px 0 0 0 limegreen inset;
+}
