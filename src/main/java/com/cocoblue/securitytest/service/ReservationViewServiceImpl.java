@@ -15,6 +15,6 @@ public class ReservationViewServiceImpl implements ReservationViewService {
     }
 
     @Override
-    public List<ReservationView> getAllConfiremdReservationByCno(long cno) {return reservationviewDao.getAllConfiremdReservationByCno(cno);}
+    public List<ReservationView> getAllReservationByCno(long cno, int page) {return reservationviewDao.getAllReservationByCno(cno, page);}
 
 }

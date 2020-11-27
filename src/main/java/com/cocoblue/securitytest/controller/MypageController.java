@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,15 +29,16 @@ public class MypageController {
 
     }
     @RequestMapping("/mypage")
-    public String mypage(Model model) {
+    public String mypage(Model model ,@RequestParam(name = "page", required = false) String page) {
         // 로그인 정보 model에 추가
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
-            return "mypage";
+        if(page == null){
+            page = "1";
         }
-
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<ReservationView> reservation = reservationViewService.getAllConfiremdReservationByCno(customUserDetails.getCno());
+        List<ReservationView> reservation = reservationViewService.getAllReservationByCno(customUserDetails.getCno(),Integer.parseInt(page));
 
+        model.addAttribute("pagesCount",getTotalPage(reservationService.getReservationCount(customUserDetails.getCno())));
+        model.addAttribute("nowPage",Integer.parseInt(page));
         model.addAttribute("loginedId", customUserDetails.getId());
         model.addAttribute("loginedName", customerService.getCustomerByCno(customUserDetails.getCno()).getName());
         model.addAttribute("reservation",reservation);
@@ -50,7 +52,13 @@ public class MypageController {
         return reservationService.cancelReservation(rno);
     }
 
-
+    private long getTotalPage(long reservationCount){
+        if(reservationCount % 4 == 0){
+            return reservationCount / 4;
+        } else {
+            return reservationCount / 4 + 1;
+        }
+    }
 
 
 }
