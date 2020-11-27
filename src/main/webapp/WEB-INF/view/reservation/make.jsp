@@ -4,8 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>예약하기</title>
+    <title>예약페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="/resources/reservation_css.css" rel="stylesheet" type="text/css">
 
     <%-- 진료 과가 변경되었을 때 생기는 이벤트 --%>
     <script>
@@ -99,10 +100,12 @@
 </head>
 
 <body>
-<h1>예약하기</h1>
-
+<div class="head_text">
+<h1>예약페이지</h1>
+</div>
+<div class="text3">
 <form name="reservationForm" method="post" action="/reservation/makereservation">
-    <label for="select-date"> 진료 날짜를 선택하세요.
+    <label for="select-date"> 1.진료 날짜를 선택하세요.
         <select id="select-date" name="date" onchange="changeTimeSelectValue()">
             <c:forEach var="row" items="${dates}">
                 <option value="${row.dateName.toString()}">${row.toString()}</option>
@@ -111,7 +114,7 @@
     </label>
     <br>
 
-    <label for="select-department"> 진료 과를 선택하세요.
+    <label for="select-department"> 2.진료 과를 선택하세요.
         <select id="select-department" name="department" onchange="changeDoctorSelectValue()">
             <c:forEach var="row" items="${departments}">
                 <option value="${row.dno}">${row.name}</option>
@@ -120,19 +123,19 @@
     </label>
     <br>
 
-    <label for="select-doctor"> 의사 선생님을 선택하세요.
+    <label for="select-doctor"> 3.의사 선생님을 선택하세요.
         <select id="select-doctor" name="doctor" onchange="changeTimeSelectValue()">
         </select>
     </label>
     <br>
 
-    <label for="select-time"> 진료 시간을 선택하세요.
+    <label for="select-time"> 4.진료 시간을 선택하세요.
         <select id="select-time" name="time">
         </select>
     </label>
     <br>
 
-    <label> 진료를 원하는 증상을 적어주세요.
+    <label> 5.진료를 원하는 증상을 적어주세요.
         <textarea id="symptom" name="symptom"></textarea>
     </label>
 
@@ -140,10 +143,12 @@
     <script>
         CKEDITOR.replace('symptom');
     </script>
+
     <br>
 
 
-    <input type="submit" value="예약하기">
+    <input class="btn hover3" type="submit" value="예약하기">
 </form>
+</div>
 </body>
 </html>
