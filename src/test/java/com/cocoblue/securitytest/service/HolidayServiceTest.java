@@ -21,10 +21,14 @@ public class HolidayServiceTest {
     @Autowired
     HolidayService holidayService;
 
-//    @Test
-//    public void apiTest() throws Exception {
-//        List<LocalDate> value = new ArrayList<LocalDate>();
-//        String object = holidayService.getItemsFromOpenApi(2020, 10, value);
-//        System.out.println(value);
-//    }
+    @Test
+    public void holidayUpdateTest() {
+        try {
+            HolidayDbUpdateThread hdt = new HolidayDbUpdateThread(holidayService);
+            Thread t = new Thread(hdt,"HolidayDbUpdateThread");
+            t.start();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

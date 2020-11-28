@@ -162,7 +162,7 @@
 
 <body>
 <div class="head_text">
-<h1>예약하기</h1>
+<h1>진료 예약</h1>
 </div>
 
 <div class="text3">

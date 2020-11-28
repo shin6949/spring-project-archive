@@ -73,7 +73,6 @@ public class ReservationServiceImpl implements  ReservationService{
             if(!holiday.getCustomDate() && holiday.getRegTime().plusDays(1).isBefore(LocalDateTime.now())) {
                 HolidayDbUpdateThread hdt = new HolidayDbUpdateThread(holidayService);
                 Thread t = new Thread(hdt,"HolidayDbUpdateThread");
-                System.out.println("Thread Called");
                 t.start();
                 break;
             }

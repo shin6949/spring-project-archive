@@ -28,14 +28,12 @@ public class HolidayDbUpdateThread implements Runnable {
     }
 
     // 출처: https://blog.naver.com/birdparang/221436045529
-    public void updateHolidayDbFromNia() throws Exception {
-        LocalDate localDate = LocalDate.now();
-
+    public void updateHolidayDbFromNia(LocalDate localDate) throws Exception {
         // URL 구성 -> GET 방식으로 요청하므로, Parameter가 노출되어 있음.
         final String urlString = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo"
                 + "?ServiceKey=" + DbConfig.OPEN_DATA_API_KEY
                 + "&solYear=" + localDate.getYear()
-                + "&solMonth=" + (localDate.getMonthValue() > 9 ? "" : "0") + LocalDate.now().getMonthValue();
+                + "&solMonth=" + (localDate.getMonthValue() > 9 ? "" : "0") + localDate.getMonthValue();
 
         final URL url = new URL(urlString);
         final HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -85,6 +83,7 @@ public class HolidayDbUpdateThread implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        updateHolidayDbFromNia();
+        updateHolidayDbFromNia(LocalDate.now());
+        updateHolidayDbFromNia(LocalDate.now().plusMonths(1));
     }
 }
