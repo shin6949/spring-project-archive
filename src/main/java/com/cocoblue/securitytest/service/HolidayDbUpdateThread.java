@@ -28,11 +28,6 @@ public class HolidayDbUpdateThread implements Runnable {
     }
 
     // 출처: https://blog.naver.com/birdparang/221436045529
-    // [in] y : 년
-    // [in] m : 월
-    // [out] v[i*2 +0]=휴일날짜(YYYYMMDD), v[i*2 +1]=휴일 명칭
-    // 반환값 : 에러메시지, null == OK
-
     public void updateHolidayDbFromNia() throws Exception {
         LocalDate localDate = LocalDate.now();
 
