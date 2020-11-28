@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HolidayService {
-    Boolean judgeHoliday(List<LocalDate> holidayList, LocalDate localDate);
-    public void updateHolidayImf(Holiday holiday);
-    public void insertHoliday(Holiday holiday);
-    public List<Holiday> getHolidaysUntilSevenDaysLater();
+    Boolean judgeHoliday(List<Holiday> holidayList, LocalDate localDate);
+    void updateHolidayImf(Holiday holiday);
+    void insertHoliday(Holiday holiday);
+    List<Holiday> getHolidaysUntilSevenDaysLater();
 }

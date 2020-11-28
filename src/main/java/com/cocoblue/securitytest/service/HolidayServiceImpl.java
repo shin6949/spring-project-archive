@@ -16,7 +16,7 @@ public class HolidayServiceImpl implements HolidayService {
     }
 
     @Override
-    public Boolean judgeHoliday(List<LocalDate> holidayList, LocalDate localDate) {
+    public Boolean judgeHoliday(List<Holiday> holidayList, LocalDate localDate) {
         // 일요일인지 판단
         if(localDate.getDayOfWeek().getValue() == 7) {
             return true;
@@ -27,8 +27,8 @@ public class HolidayServiceImpl implements HolidayService {
             return false;
         }
 
-        for(LocalDate holiday : holidayList) {
-            if(holiday.toString().equals(localDate.toString())) {
+        for(Holiday holiday : holidayList) {
+            if(holiday.getHolidayDate().equals(localDate)) {
                 return true;
             }
         }
