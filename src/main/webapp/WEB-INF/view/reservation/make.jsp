@@ -161,7 +161,9 @@
 </head>
 
 <body>
+<div class="head_text">
 <h1>예약하기</h1>
+</div>
 
 <div class="text3">
 <form name="reservationForm" method="post" action="${pageContext.request.contextPath}/reservation/makereservation">
