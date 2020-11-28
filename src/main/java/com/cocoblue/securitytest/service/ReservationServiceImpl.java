@@ -50,18 +50,18 @@ public class ReservationServiceImpl implements  ReservationService{
     public List<AvailableDateDto> getAvailableDate() {
         List<LocalDate> holidayList = null;
 
-        try {
-            int[] dateInt = {LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()};
-            holidayService.getItemsFromOpenApi(dateInt[0], dateInt[1], holidayList);
-
-            // 다음 7일이 한 달이 넘어가는 상황을 방지하기 위해 2달분의 데이터를 받아옴.
-            if(dateInt[1] != 12) {
-                holidayService.getItemsFromOpenApi(dateInt[0], dateInt[1] + 1, holidayList);
-            }
-
-        } catch (Exception e) {
-            return configureAvailableDate(null);
-        }
+//        try {
+//            int[] dateInt = {LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()};
+//            holidayService.getItemsFromOpenApi(dateInt[0], dateInt[1], holidayList);
+//
+//            // 다음 7일이 한 달이 넘어가는 상황을 방지하기 위해 2달분의 데이터를 받아옴.
+//            if(dateInt[1] != 12) {
+//                holidayService.getItemsFromOpenApi(dateInt[0], dateInt[1] + 1, holidayList);
+//            }
+//
+//        } catch (Exception e) {
+//            return configureAvailableDate(null);
+//        }
 
         return configureAvailableDate(holidayList);
     }

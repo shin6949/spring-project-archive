@@ -161,8 +161,8 @@
 <h1>예약하기</h1>
 
 <form name="reservationForm" method="post" action="/reservation/makereservation">
-    <label for="select-date"> 진료 날짜를 선택하세요.
-        <select id="select-date" name="date" onchange="changedDateEvent()" required>
+    <label for="select-date"> 1.진료 날짜를 선택하세요.
+        <select id="select-date" name="date" onchange="changeTimeSelectValue()" required>
             <option value="" selected disabled hidden>선택하세요.</option>
             <c:forEach var="row" items="${dates}">
                 <option value="${row.dateName.toString()}">${row.toString()}</option>
@@ -171,7 +171,7 @@
     </label>
     <br>
 
-    <label for="select-department"> 진료 과를 선택하세요.
+    <label for="select-department"> 2.진료 과를 선택하세요.
         <select id="select-department" name="department" onchange="changeDoctorSelectValue()" required>
             <option value="" selected disabled hidden>선택하세요.</option>
             <c:forEach var="row" items="${departments}">
@@ -181,21 +181,21 @@
     </label>
     <br>
 
-    <label for="select-doctor"> 의사 선생님을 선택하세요.
+    <label for="select-doctor"> 3.의사 선생님을 선택하세요.
         <select id="select-doctor" name="doctor" onchange="changeTimeSelectValue()" required>
-            <option value="" selected disabled hidden>진료 과를 먼저 선택하세요.</option>
+            <option value="" selected disabled hidden>선택하세요.</option>
         </select>
     </label>
     <br>
 
-    <label for="select-time"> 진료 시간을 선택하세요.
+    <label for="select-time"> 4.진료 시간을 선택하세요.
         <select id="select-time" name="time" required>
-            <option value="" selected disabled hidden>의사 선생님을 먼저 선택하세요.</option>
+            <option value="" selected disabled hidden>선택하세요.</option>
         </select>
     </label>
     <br>
 
-    <label> 진료를 원하는 증상을 적어주세요.
+    <label> 5.진료를 원하는 증상을 적어주세요.
         <textarea id="symptom" name="symptom"></textarea>
     </label>
 
@@ -204,7 +204,7 @@
         CKEDITOR.replace('symptom');
     </script>
     <br>
-    <input type="submit" value="예약하기">
+    <input class="btn hover3" type="submit" value="예약하기">
 </form>
 </body>
 </html>
