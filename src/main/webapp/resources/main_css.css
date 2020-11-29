@@ -12,6 +12,7 @@ a.link1:hover{color:black}
     line-height: 40px;
     border: 1px dodgerblue solid;
     margin: 15px auto;
+    background-color: ;
     text-align: center;
     cursor: pointer;
 
@@ -21,5 +22,5 @@ a.link1:hover{color:black}
 .btn:hover{color:white}
 .hover2:hover{
     box-shadow: 200px 0 0 0 dodgerblue inset,
-    -200px 0 0 0 dodgerblue inset;
+               -200px 0 0 0 dodgerblue inset;
 }

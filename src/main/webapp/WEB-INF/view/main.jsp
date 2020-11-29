@@ -8,7 +8,7 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <link href="/resources/main_css.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/resources/main_css.css" rel="stylesheet" type="text/css">
     <title>메인 페이지</title>
 </head>
 <body>
@@ -18,11 +18,11 @@
     <br>
     <div class="text1">
     <a class="btn hover2" href="${pageContext.request.contextPath}/reservation/">
-        <h2>예약하기</h2>
+        <h2>진료 예약</h2>
     </a>
     <br>
     <a class="btn hover2" href="${pageContext.request.contextPath}/mypage">
-        <h2>마이 페이지</h2>
+        <h2>예약 관리</h2>
     </a>
     </div>
 </c:if>

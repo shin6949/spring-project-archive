@@ -3,7 +3,9 @@ package com.cocoblue.securitytest.service;
 import com.cocoblue.securitytest.dao.ReservationDao;
 import com.cocoblue.securitytest.dto.AvailableDateDto;
 import com.cocoblue.securitytest.dto.Doctor;
+import com.cocoblue.securitytest.dto.Holiday;
 import com.cocoblue.securitytest.dto.Reservation;
+import org.omg.PortableInterceptor.HOLDING;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
@@ -48,25 +50,7 @@ public class ReservationServiceImpl implements  ReservationService{
 
     @Override
     public List<AvailableDateDto> getAvailableDate() {
-        List<LocalDate> holidayList = null;
-
-        try {
-            int[] dateInt = {LocalDate.now().getYear(), LocalDate.now().getMonth().getValue()};
-            holidayService.getItemsFromOpenApi(dateInt[0], dateInt[1], holidayList);
-
-            // 다음 7일이 한 달이 넘어가는 상황을 방지하기 위해 2달분의 데이터를 받아옴.
-            if(dateInt[1] != 12) {
-                holidayService.getItemsFromOpenApi(dateInt[0], dateInt[1] + 1, holidayList);
-            }
-
-        } catch (Exception e) {
-            return configureAvailableDate(null);
-        }
-
-        return configureAvailableDate(holidayList);
-    }
-
-    private List<AvailableDateDto> configureAvailableDate(List<LocalDate> holidayList) {
+        List<Holiday> holidayList = getRecentHoliday();
         List<AvailableDateDto> availableDateList = new ArrayList<>();
 
         for(int i = 1; i < 8; i++) {
@@ -80,6 +64,24 @@ public class ReservationServiceImpl implements  ReservationService{
         return availableDateList;
     }
 
+    private List<Holiday> getRecentHoliday() {
+        // 휴일 리스트를 받아옴.
+        List<Holiday> holidayList = holidayService.getHolidaysUntilSevenDaysLater();
+
+        // 받아온 국가 휴일 리스트 중에서 하나라도 갱신된지 하루가 지났으면, 백그라운드에서 NIA에 접속해 정보를 갱신.
+        for(Holiday holiday : holidayList) {
+            if(!holiday.getCustomDate() && holiday.getRegTime().plusDays(1).isBefore(LocalDateTime.now())) {
+                HolidayDbUpdateThread hdt = new HolidayDbUpdateThread(holidayService);
+                Thread t = new Thread(hdt,"HolidayDbUpdateThread");
+                t.start();
+                break;
+            }
+        }
+
+        return holidayList;
+    }
+
+    @Override
     public List<String> configureAvailableTime(String dateString, Doctor doctor) {
         List<String> result;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

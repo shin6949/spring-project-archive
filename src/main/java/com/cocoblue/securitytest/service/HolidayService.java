@@ -1,11 +1,13 @@
 package com.cocoblue.securitytest.service;
 
-import java.net.MalformedURLException;
+import com.cocoblue.securitytest.dto.Holiday;
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public interface HolidayService {
-    String getItemsFromOpenApi(int year, int month, List<LocalDate> value) throws Exception;
-    Boolean judgeHoliday(List<LocalDate> holidayList, LocalDate localDate);
+    Boolean judgeHoliday(List<Holiday> holidayList, LocalDate localDate);
+    void updateHolidayImf(Holiday holiday);
+    void insertHoliday(Holiday holiday);
+    List<Holiday> getHolidaysUntilSevenDaysLater();
 }
