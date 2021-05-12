@@ -4,16 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberRole {
+public class LikePost {
     private long id;
+    private long postId;
     private long memberId;
-    private String roleName;
-
-    public MemberRole(long memberId, String roleName) {
-        this.memberId = memberId;
-        this.roleName = roleName;
-    }
+    private LocalDateTime likeTime;
 }

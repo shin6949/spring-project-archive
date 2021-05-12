@@ -4,7 +4,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
+
 <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+
     <title>${post.title}</title>
     <script type="text/javascript">
         function isValidate(obj) {
@@ -27,6 +36,32 @@
             return true;
         }
     </script>
+
+    <script type="text/javascript">
+        function doLike(){
+            // ajax 통신
+            $.ajax({
+                type : "GET",
+                url : "/like/do/${post.id}",
+                success : function(res){
+                    if(res.result) {
+                        alert("추천이 완료되었습니다.");
+                    } else {
+                        alert("이미 추천한 게시글 입니다");
+                    }
+                },
+                error: function(jqXHR, textStatus) {
+                    if (jqXHR.status == 401) {
+                        alert("비로그인 상태입니다.");
+                    } else {
+                        alert("시스템 오류입니다. 잠시 후 다시 접속하시기 바랍니다.");
+                    }
+                }
+            });
+        }
+
+    </script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
@@ -76,6 +111,13 @@
             <tr>
                 <td>
                     <pre>${post.content}</pre>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <pre>추천: ${likeCount}</pre>
+                    <button type="button" onclick="doLike()">추천하기</button>
                 </td>
             </tr>
             </tbody>
@@ -139,15 +181,5 @@
         </c:if>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
 </body>
 </html>

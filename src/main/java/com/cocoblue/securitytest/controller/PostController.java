@@ -3,6 +3,7 @@ package com.cocoblue.securitytest.controller;
 import com.cocoblue.securitytest.dto.Comment;
 import com.cocoblue.securitytest.dto.Post;
 import com.cocoblue.securitytest.service.CommentService;
+import com.cocoblue.securitytest.service.LikePostService;
 import com.cocoblue.securitytest.service.security.CustomUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,15 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/board")
 public class PostController {
-    PostService postService;
-    CommentService commentService;
+    private final PostService postService;
+    private final CommentService commentService;
+    private final LikePostService likePostService;
 
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService, CommentService commentService,
+                          LikePostService likePostService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.likePostService = likePostService;
     }
 
     @RequestMapping("/posts")
@@ -60,9 +64,10 @@ public class PostController {
         }
 
         model.addAttribute("posts", posts);
+        System.out.println(posts);
         model.addAttribute("nowPage", Integer.parseInt(page));
 
-        model = addLoginImf(model);
+        addLoginImf(model);
 
         return "posts/posts";
     }
@@ -74,6 +79,7 @@ public class PostController {
         long commentCount = commentService.getCommentCount(id);
         model.addAttribute("comment_count", commentCount);
         model.addAttribute("postId", id);
+        model.addAttribute("likeCount", likePostService.getLikeCount(Long.parseLong(id)));
 
         // 조회수 증가
         postService.increaseViewNum(id);
@@ -83,7 +89,7 @@ public class PostController {
             model.addAttribute("comments", comments);
         }
 
-        model = addLoginImf(model);
+        addLoginImf(model);
 
         return "posts/read";
     }
