@@ -1,17 +1,17 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="team_c:war exploded">
+  <artifact type="exploded-war" name="controller:war exploded">
     <output-path>$PROJECT_DIR$/target/controller-1.0.0-BUILD-SNAPSHOT</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
-        <module>team_c</module>
+        <module>controller</module>
         <packaging>war</packaging>
       </options>
     </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="team_c" />
+          <element id="module-output" name="controller" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.2.7.RELEASE" />
@@ -39,12 +39,18 @@
           <element id="library" level="project" name="Maven: org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.25" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-taglibs:5.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.12.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/controller-1.0.0-BUILD-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="team_c/web/Web" />
+      <element id="javaee-facet-resources" facet="controller/web/Web" />
     </root>
   </artifact>
 </component>
