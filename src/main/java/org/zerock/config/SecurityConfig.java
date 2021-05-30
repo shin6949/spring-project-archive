@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/board/**", "/resources/**", "/member/**").permitAll()
+                .antMatchers("/", "/board/**", "/resources/**", "/member/**", "/book/**").permitAll()
                 .antMatchers("/test").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .loginProcessingUrl("/authenticate")
                 .failureUrl("/members/loginerror?login_error=1")
-                .defaultSuccessUrl("/board/posts", true)
+                .defaultSuccessUrl("/book/list", true)
                 .permitAll()
                 .and()
                 .logout()

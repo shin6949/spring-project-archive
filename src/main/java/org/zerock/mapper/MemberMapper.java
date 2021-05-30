@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
-    Member selectOneMemberByEmail(Map<String, Object> params);
-    int selectUserCountByEmail(Map<String, Object> params);
+    Member selectOneMemberByEmail(String email);
+    int selectUserCountByEmail(String email);
     int insertMember(Member member);
 }

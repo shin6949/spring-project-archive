@@ -37,9 +37,8 @@ public class MemberController {
     @RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
     @ResponseBody
     public String emailCheck(Member member) throws Exception {
-        System.out.println(member);
         boolean result = memberService.checkEmail(member.getEmail());
-        System.out.println(result);
+
         if(result) {
             // 중복된 이메일이 존재하지 않으면 false
             return "false";

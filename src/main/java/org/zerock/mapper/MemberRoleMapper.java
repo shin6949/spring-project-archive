@@ -8,6 +8,6 @@ import java.util.Map;
 
 @Mapper
 public interface MemberRoleMapper {
-    List<MemberRole> selectMemberRoleByEmail(Map<String, Object> params);
+    List<MemberRole> selectMemberRoleByEmail(String email);
     int insertMemberRole(MemberRole memberRole);
 }
