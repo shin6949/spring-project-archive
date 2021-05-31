@@ -18,13 +18,15 @@ public class BookController {
     private final KeepBookService keepBookService;
 
     @GetMapping("/list")
-    public void list(Criteria cri, Model model) {
+    public String list(Criteria cri, Model model) {
         log.info("list: " + cri);
         model.addAttribute("list", keepBookService.selectKeepBookWithPaging(cri));
-        //model.addAttribute("pageMaker", new PageDTO(cri, 123));
+
         int total = keepBookService.getTotalCount();
-        log.info("total: "+total);
+        log.info("total: " + total);
+
         model.addAttribute("pageMaker", new PageDTO(cri, total));
-        System.out.println(model);
+
+        return "book/list";
     }
 }

@@ -46,12 +46,13 @@
 							<td><c:out value="${book.categoryCode}" /></td>
 							<td><c:out value="${book.categoryName}" /></td>
 							<td><c:out value="${book.location}" /></td>
-							<c:if test="${book.isBorrowed} eq true">
-								<td>대출 중</td>
-							</c:if>
-							<c:if test="${book.isBorrowed} ne true">
-								<td>있음</td>
-							</c:if>
+							<td>TEST</td>
+<%--							<c:if test="${book.isBorrowed}">--%>
+<%--								<td>대출 중</td>--%>
+<%--							</c:if>--%>
+<%--							<c:if test="${book.isBorrowed}">--%>
+<%--								<td>있음</td>--%>
+<%--							</c:if>--%>
 						</tr>
 					</c:forEach>
 				</table>

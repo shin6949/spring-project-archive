@@ -37,9 +37,7 @@ public class KeepBookServiceImpl implements KeepBookService {
         params.put("from", from);
         params.put("to", to);
 
-        List<KeepBook> result = keepBookMapper.selectKeepBookWithPaging(params);
-        System.out.println(result);
-        return result;
+        return keepBookMapper.selectKeepBookWithPaging(params);
     }
 
     @Override
