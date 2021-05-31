@@ -15,5 +15,6 @@ public class KeepBook {
     private int categoryCode;
     private String categoryName;
     private String location;
-    private boolean isBorrowed;
+    // JSTL 에서 불러오기 위해서는 java.lang.Boolean을 사용해야함.
+    private Boolean isBorrowed;
 }

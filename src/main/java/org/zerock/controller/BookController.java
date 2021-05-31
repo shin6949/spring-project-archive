@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.PageDTO;
 import org.zerock.service.KeepBookService;
@@ -28,5 +27,19 @@ public class BookController {
         model.addAttribute("pageMaker", new PageDTO(cri, total));
 
         return "book/list";
+    }
+
+    @GetMapping("/get/{id}")
+    public String get(@PathVariable("id") Long id, @ModelAttribute("cri") Criteria cri, Model model) {
+        log.info("/get/" + id);
+        model.addAttribute("book", keepBookService.selectKeepBookById(id));
+        return "book/get";
+    }
+
+    @GetMapping("/return/{id}")
+    public String returnBook(@PathVariable("id") Long id, @ModelAttribute("cri") Criteria cri, Model model) {
+        log.info("/return/" + id);
+        model.addAttribute("book", keepBookService.selectKeepBookById(id));
+        return "redirect:book/get/" + id;
     }
 }
