@@ -2,8 +2,10 @@ package org.zerock.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +57,13 @@ public class BookController {
     }
 
     @GetMapping("/return")
-    @PreAuthorize("isAuthenticated()")
     public String returnBook(@RequestParam("id") Long id, @ModelAttribute("cri") Criteria cri,
                              RedirectAttributes rttr) {
+
+        // 비 로그인 상태라면, 401 에러를 표출
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
+            throw new AccessDeniedException("");
+        }
 
         log.info("/return");
 
