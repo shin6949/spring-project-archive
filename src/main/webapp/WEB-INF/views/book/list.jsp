@@ -16,9 +16,8 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Board List Page
-				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
-					New Board</button>
+				도서 리스트
+				<button id='regBtn' type="button" class="btn btn-xs pull-right">책 추가</button>
 			</div>
 
 			<!-- /.panel-heading -->
@@ -46,13 +45,12 @@
 							<td><c:out value="${book.categoryCode}" /></td>
 							<td><c:out value="${book.categoryName}" /></td>
 							<td><c:out value="${book.location}" /></td>
-							<td>TEST</td>
-<%--							<c:if test="${book.isBorrowed}">--%>
-<%--								<td>대출 중</td>--%>
-<%--							</c:if>--%>
-<%--							<c:if test="${book.isBorrowed}">--%>
-<%--								<td>있음</td>--%>
-<%--							</c:if>--%>
+							<c:if test="${book.isBorrowed eq true}">
+								<td>대출 중</td>
+							</c:if>
+							<c:if test="${book.isBorrowed ne true}">
+								<td>대출 가능</td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>
@@ -62,8 +60,8 @@
 
 						<form id='searchForm' action="/book/list" method='get'>
 							<select name='type'>
-								<option value=""
-									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+<%--								<option value=""--%>
+<%--									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>--%>
 								<option value="T"
 									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 								<option value="C"
@@ -106,7 +104,7 @@
 
 			<c:if test="${pageMaker.next}">
 				<li class="paginate_button next"><a
-					href="${pageMaker.endPage +1 }">Next</a></li>
+					href="${pageMaker.endPage + 1}">Next</a></li>
 			</c:if>
 
 					</ul>
@@ -114,7 +112,7 @@
 				<!--  end Pagination -->
 			</div>
 
-			<form id='actionForm' action="/board/list" method='get'>
+			<form id='actionForm' action="/book/list" method='get'>
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 
@@ -160,11 +158,6 @@
 </div>
 <!-- /.row -->
 
-
-
-
-
-
 <script type="text/javascript">
 	$(document)
 			.ready(
@@ -193,7 +186,7 @@
 
 						$("#regBtn").on("click", function() {
 
-							self.location = "/board/register";
+							self.location = "/book/list";
 
 						});
 
@@ -224,7 +217,7 @@
 																	"href")
 															+ "'>");
 											actionForm.attr("action",
-													"/board/get");
+													"/book/get");
 											actionForm.submit();
 										});
 						var searchForm = $("#searchForm");

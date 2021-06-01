@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.KeepBook;
@@ -10,12 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@AllArgsConstructor
 public class KeepBookServiceImpl implements KeepBookService {
     private final KeepBookMapper keepBookMapper;
-
-    public KeepBookServiceImpl(KeepBookMapper keepBookMapper) {
-        this.keepBookMapper = keepBookMapper;
-    }
 
     @Override
     public List<KeepBook> selectKeepBook() {

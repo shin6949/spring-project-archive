@@ -1,5 +1,6 @@
 package org.zerock.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.Member;
@@ -13,14 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final MemberRoleMapper memberRoleMapper;
-
-    public MemberServiceImpl(MemberMapper memberMapper, MemberRoleMapper memberRoleMapper) {
-        this.memberMapper = memberMapper;
-        this.memberRoleMapper = memberRoleMapper;
-    }
 
     @Override
     @Transactional

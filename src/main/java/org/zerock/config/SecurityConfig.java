@@ -14,8 +14,6 @@ import org.zerock.service.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-// Controller에서 @PreAuthorize 사용할려면 필요.
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -38,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/board/**", "/resources/**", "/member/**", "/book/**").permitAll()
+                .antMatchers("/", "/resources/**", "/member/**", "/book/**").permitAll()
                 .antMatchers("/test").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
