@@ -62,7 +62,7 @@
 
         <c:if test="${fn:length(borrowLog) != 0}">
           <label>최근 10회 대출 기록</label>
-          <textarea class="form-control" rows="10" name='borrowLog' readonly="readonly"><c:forEach items="${borrowLog}" var="log"><c:out value="${log.borrowTime}: ${log.memberName}"/></c:forEach></textarea>
+          <textarea class="form-control" rows="10" name='borrowLog' readonly="readonly"><c:forEach items="${borrowLog}" var="log">${log.borrowTime}: ${log.memberName}&#10;</c:forEach></textarea>
         </c:if>
 
         <sec:authorize access="isAuthenticated()">
