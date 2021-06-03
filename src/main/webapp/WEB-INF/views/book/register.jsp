@@ -17,26 +17,48 @@
   <div class="col-lg-12">
     <div class="panel panel-default">
 
-      <div class="panel-heading">Board Register</div>
+      <div class="panel-heading">책 추가</div>
       <!-- /.panel-heading -->
       <div class="panel-body">
 
         <form role="form" action="/book/register" method="post">
           <div class="form-group">
-            <label>Title</label> <input class="form-control" name='title'>
+            <label>책 제목</label>
+            <input class="form-control" name='name'/>
           </div>
 
           <div class="form-group">
-            <label>Text area</label>
-            <textarea class="form-control" rows="3" name='content'></textarea>
+            <label>ISBN</label>
+            <input class="form-control" name='isbn'/>
           </div>
 
           <div class="form-group">
-            <label>Writer</label> <input class="form-control" name='writer'>
+            <label>카테고리</label>
+            <select name='category'>
+              <c:forEach items="${categories}" var="category">
+                <option value="${category.code}"
+                        <c:out value="${category.code}"/>>${category.code} - ${category.name}</option>
+              </c:forEach>
+            </select>
           </div>
-          <button type="submit" class="btn btn-default">Submit
-            Button</button>
-          <button type="reset" class="btn btn-default">Reset Button</button>
+
+          <div class="form-group">
+            <label>소재 위치</label>
+            <select name='location'>
+              <c:forEach items="${locations}" var="location">
+                <option value="${location.id}"
+                        <c:out value="${location.id}"/>> ${location.name}</option>
+              </c:forEach>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>글쓴이</label>
+            <input class="form-control" name='writer'/>
+          </div>
+
+          <button type="submit" class="btn btn-default">제출</button>
+          <button type="reset" class="btn btn-default">초기화</button>
         </form>
 
       </div>

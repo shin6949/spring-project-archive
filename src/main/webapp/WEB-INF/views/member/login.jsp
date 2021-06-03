@@ -21,8 +21,8 @@
         </c:if>
 
 
-            <form method="post" action="/authenticate">
-                <input type="text" name="userId" class="fadeIn second" placeholder="****@example.com">
+            <form method="post" action="/login">
+                <input type="text" name="username" class="fadeIn second" placeholder="****@example.com">
                 <input type="password" name="password" class="fadeIn third" placeholder="비밀번호">
                 <input type="submit" value="로그인" class="fadeIn fourth">
             </form>

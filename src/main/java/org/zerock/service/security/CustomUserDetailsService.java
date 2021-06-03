@@ -1,5 +1,8 @@
 package org.zerock.service.security;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,13 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j
+@AllArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserDbService userdbService;
-
-    public CustomUserDetailsService(UserDbService userdbService) {
-        this.userdbService = userdbService;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,6 +46,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         customUserDetails.setAccountNonExpired(true);
         customUserDetails.setAccountNonLocked(true);
         customUserDetails.setCredentialsNonExpired(true);
+
+        log.info(customUserDetails);
         return customUserDetails;
     }
 }

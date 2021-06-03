@@ -6,6 +6,7 @@ import org.zerock.domain.Criteria;
 import org.zerock.domain.KeepBook;
 import org.zerock.mapper.KeepBookMapper;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,9 @@ public class KeepBookServiceImpl implements KeepBookService {
 
         params.put("from", from);
         params.put("to", to);
+        params.put("typeArr", cri.getTypeArr());
+        System.out.println(cri.getTypeArr().length);
+        params.put("keyword", cri.getKeyword());
 
         return keepBookMapper.selectKeepBookWithPaging(params);
     }

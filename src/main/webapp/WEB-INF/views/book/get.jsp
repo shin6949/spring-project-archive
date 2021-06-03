@@ -58,7 +58,7 @@
                    value='대출 가능' readonly="readonly">
           </c:if>
 
-<%--        <sec:authorize access="isAuthenticated()">--%>
+        <sec:authorize access="isAuthenticated()">
             <c:if test="${book.isBorrowed eq true}">
               <button data-oper='return' class="btn btn-default">반납처리</button>
 
@@ -66,7 +66,7 @@
                 <input type='hidden' id='id' name='id' value='<c:out value="${borrowUser.borrowId}"/>'>
               </form>
             </c:if>
-<%--        </sec:authorize>--%>
+        </sec:authorize>
 
       </div>
       <!--  end panel-body -->

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%@include file="../includes/header.jsp"%>
 <div class="row">
@@ -17,7 +17,9 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				도서 리스트
+<%--			<sec:authorize access="isAuthenticated()">--%>
 				<button id='regBtn' type="button" class="btn btn-xs pull-right">책 추가</button>
+<%--			</sec:authorize>--%>
 			</div>
 
 			<!-- /.panel-heading -->
@@ -60,28 +62,15 @@
 
 						<form id='searchForm' action="/book/list" method='get'>
 							<select name='type'>
-<%--								<option value=""--%>
-<%--									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>--%>
 								<option value="T"
 									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
-								<option value="C"
-									<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
-								<option value="W"
-									<c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
-								<option value="TC"
-									<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
-									or 내용</option>
-								<option value="TW"
-									<c:out value="${pageMaker.cri.type eq 'TW'?'selected':''}"/>>제목
-									or 작성자</option>
-								<option value="TWC"
-									<c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>제목
-									or 내용 or 작성자</option>
-							</select> 
+								<option value="I"
+									<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>ISBN</option>
+							</select>
 							<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
 							<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 							<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
-							<button class='btn btn-default'>Search</button>
+							<button class='btn btn-default'>검색</button>
 						</form>
 					</div>
 				</div>
@@ -123,7 +112,6 @@
 
 
 			</form>
-
 
 			<!-- Modal  추가 -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -186,7 +174,7 @@
 
 						$("#regBtn").on("click", function() {
 
-							self.location = "/book/list";
+							self.location = "/book/register";
 
 						});
 

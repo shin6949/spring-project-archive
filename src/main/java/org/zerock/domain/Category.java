@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book {
-    private long id;
-    private long isbn;
+public class Category {
+    private int code;
+    private String name;
 }

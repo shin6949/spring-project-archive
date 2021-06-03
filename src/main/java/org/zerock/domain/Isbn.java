@@ -13,4 +13,5 @@ public class Isbn {
     private String writer;
     private int category;
     private long location;
+    private int count;
 }

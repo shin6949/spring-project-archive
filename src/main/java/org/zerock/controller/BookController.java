@@ -10,14 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zerock.domain.Criteria;
-import org.zerock.domain.KeepBook;
-import org.zerock.domain.LogBorrow;
-import org.zerock.domain.PageDTO;
-import org.zerock.service.KeepBookService;
-import org.zerock.service.LogBorrowService;
+import org.zerock.domain.*;
+import org.zerock.service.*;
 import org.zerock.service.security.CustomUserDetails;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,6 +24,10 @@ import java.util.List;
 public class BookController {
     private final KeepBookService keepBookService;
     private final LogBorrowService logBorrowService;
+    private final CategoryService categoryService;
+    private final IsbnService isbnService;
+    private final LocationService locationService;
+    private final BookService bookService;
 
     @GetMapping("/list")
     public String list(Criteria cri, Model model) {
@@ -56,15 +57,10 @@ public class BookController {
         return "book/get";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/return")
     public String returnBook(@RequestParam("id") Long id, @ModelAttribute("cri") Criteria cri,
                              RedirectAttributes rttr) {
-
-        // 비 로그인 상태라면, 401 에러를 표출
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == "anonymousUser") {
-            throw new AccessDeniedException("");
-        }
-
         log.info("/return");
 
         if(logBorrowService.updateLogBorrowToReturned(id)) {
@@ -78,5 +74,34 @@ public class BookController {
         rttr.addAttribute("keyword", cri.getKeyword());
 
         return "redirect:/book/list";
+    }
+
+    @PostMapping("/register")
+    @PreAuthorize("isAuthenticated()")
+    public String register(Isbn isbn) {
+        log.info("register: " + isbn);
+
+        isbnService.insertIsbn(isbn);
+
+        List<Book> books = new ArrayList<>();
+        for(int i = 0; i < isbn.getCount(); i++) {
+            Book book = new Book();
+            book.setIsbn(isbn.getIsbn());
+
+            books.add(book);
+        }
+
+        bookService.insertBook(books);
+
+        return "redirect:/board/list";
+    }
+
+    @GetMapping("/register")
+    @PreAuthorize("isAuthenticated()")
+    public String getRegister(Model model) {
+        model.addAttribute("categories", categoryService.selectCategory());
+        model.addAttribute("locations", locationService.selectLocation());
+
+        return "book/register";
     }
 }
