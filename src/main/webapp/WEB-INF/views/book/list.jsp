@@ -6,7 +6,7 @@
 <%@include file="../includes/header.jsp"%>
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Tables</h1>
+		<h1 class="page-header">도서 리스트</h1>
 	</div>
 	<!-- /.col-lg-12 -->
 </div>
@@ -16,10 +16,9 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				도서 리스트
-<%--			<sec:authorize access="isAuthenticated()">--%>
+			<sec:authorize access="isAuthenticated()">
 				<button id='regBtn' type="button" class="btn btn-xs pull-right">책 추가</button>
-<%--			</sec:authorize>--%>
+			</sec:authorize>
 			</div>
 
 			<!-- /.panel-heading -->
@@ -95,7 +94,6 @@
 				<li class="paginate_button next"><a
 					href="${pageMaker.endPage + 1}">Next</a></li>
 			</c:if>
-
 					</ul>
 				</div>
 				<!--  end Pagination -->
@@ -109,8 +107,6 @@
 					value='<c:out value="${ pageMaker.cri.type }"/>'> 
 				<input  type='hidden' name='keyword'
 					value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-
-
 			</form>
 
 			<!-- Modal  추가 -->

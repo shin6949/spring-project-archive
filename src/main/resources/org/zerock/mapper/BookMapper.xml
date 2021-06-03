@@ -6,7 +6,7 @@
 	<insert id="insertBook">
 		INSERT INTO book(isbn)
 		VALUES
-		<foreach item="item" index="index" collection="books">
+		<foreach item="item" index="index" collection="list" separator=",">
 			(#{item.isbn})
 		</foreach>
 

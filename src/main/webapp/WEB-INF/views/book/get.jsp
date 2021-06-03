@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@include file="../includes/header.jsp"%>
 
 <div class="row">
@@ -58,6 +60,11 @@
                    value='대출 가능' readonly="readonly">
           </c:if>
 
+        <c:if test="${fn:length(borrowLog) != 0}">
+          <label>최근 10회 대출 기록</label>
+          <textarea class="form-control" rows="10" name='borrowLog' readonly="readonly"><c:forEach items="${borrowLog}" var="log"><c:out value="${log.borrowTime}: ${log.memberName}"/></c:forEach></textarea>
+        </c:if>
+
         <sec:authorize access="isAuthenticated()">
             <c:if test="${book.isBorrowed eq true}">
               <button data-oper='return' class="btn btn-default">반납처리</button>
@@ -67,7 +74,6 @@
               </form>
             </c:if>
         </sec:authorize>
-
       </div>
       <!--  end panel-body -->
 

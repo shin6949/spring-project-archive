@@ -14,19 +14,16 @@
 	<select id="selectKeepBookWithPaging" resultType="org.zerock.domain.KeepBook">
 		SELECT *
 		FROM keep_book
-		<if test='typeArr.length != 0'>
-			WHERE
-		</if>
 
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<trim prefix="WHERE " suffix="" prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
-				<trim prefix="OR">
+				<trim prefix="">
 					<choose>
 						<when test="type == 'T'.toString()">
-							name like '%'||#{keyword}||'%'
+							name like CONCAT('%', #{keyword}, '%')
 						</when>
 						<when test="type == 'I'.toString()">
-							isbn like '%'||#{keyword}||'%'
+							isbn like CONCAT('%', #{keyword}, '%')
 						</when>
 					</choose>
 				</trim>

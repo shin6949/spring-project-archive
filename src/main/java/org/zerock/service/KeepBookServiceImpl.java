@@ -1,6 +1,7 @@
 package org.zerock.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.KeepBook;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Service
 @AllArgsConstructor
+@Log4j
 public class KeepBookServiceImpl implements KeepBookService {
     private final KeepBookMapper keepBookMapper;
 
@@ -36,8 +38,10 @@ public class KeepBookServiceImpl implements KeepBookService {
         params.put("from", from);
         params.put("to", to);
         params.put("typeArr", cri.getTypeArr());
-        System.out.println(cri.getTypeArr().length);
+        System.out.println("TypeArr Count: " + cri.getTypeArr().length);
+        System.out.println("TypeArr " + Arrays.toString(cri.getTypeArr()));
         params.put("keyword", cri.getKeyword());
+
 
         return keepBookMapper.selectKeepBookWithPaging(params);
     }

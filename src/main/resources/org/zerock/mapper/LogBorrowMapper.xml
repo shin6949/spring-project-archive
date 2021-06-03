@@ -7,6 +7,7 @@
 		FROM log_borrow
 		WHERE book_id = #{bookId} AND is_borrowed = #{isBorrowed}
 		ORDER BY borrow_time DESC
+		LIMIT 10
 	</select>
 
 	<update id="updateLogBorrowToReturned">

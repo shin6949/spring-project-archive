@@ -57,6 +57,11 @@
             <input class="form-control" name='writer'/>
           </div>
 
+          <div class="form-group">
+            <label>책의 수</label>
+            <input class="form-control" name='count'/>
+          </div>
+
           <button type="submit" class="btn btn-default">제출</button>
           <button type="reset" class="btn btn-default">초기화</button>
         </form>

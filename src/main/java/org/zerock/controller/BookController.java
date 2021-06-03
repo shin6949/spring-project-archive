@@ -53,7 +53,12 @@ public class BookController {
             model.addAttribute("borrowUser", borrowUser);
         }
 
-        model.addAttribute("borrowLog", logBorrowService.selectLogBorrowByBookIdAndIsBorrowed(keepBook.getId(), false));
+        List<LogBorrow> logBorrows = logBorrowService.selectLogBorrowByBookIdAndIsBorrowed(keepBook.getId(), false);
+        model.addAttribute("borrowLog", logBorrows);
+        if (logBorrows.size() != 0) {
+            model.addAttribute("borrowLog", logBorrows);
+        }
+
         return "book/get";
     }
 
@@ -93,7 +98,7 @@ public class BookController {
 
         bookService.insertBook(books);
 
-        return "redirect:/board/list";
+        return "redirect:/book/list";
     }
 
     @GetMapping("/register")
