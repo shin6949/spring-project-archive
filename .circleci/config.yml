@@ -24,7 +24,7 @@ jobs:
           paths:
             - target/
       - store_artifacts:
-          path: ./target/iter*.jar
+          path: ./target
 
   test:
     docker:
@@ -40,6 +40,8 @@ jobs:
       - run:
           name: Run Maven Test
           command: mvn test
+      - store_test_results:
+          path: ./target/surefire-reports
 
   deploy:
     machine:
