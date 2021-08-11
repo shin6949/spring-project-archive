@@ -109,10 +109,16 @@ workflows:
       - test:
           requires:
             - build
+          branches:
+            ignore:
+              - kublr-test
       - push:
           requires:
             - build
             - test
+          branches:
+            ignore:
+              - kublr-test
       - deploy:
           requires:
             - build
