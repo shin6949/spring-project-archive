@@ -124,8 +124,8 @@ workflows:
             branches:
               ignore:
                 - kublr-test
-      - deploy:
-          requires:
-            - build
-            - test
-            - push
+      - deploy
+#          requires:
+#            - build
+#            - test
+#            - push
