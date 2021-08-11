@@ -13,8 +13,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
+            - maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - maven-repo-v1-{{ .Branch }}-
+            - maven-repo-v1-
       - run:
           name: Download Dependencies
           command: mvn dependency:go-offline
@@ -29,6 +30,12 @@ jobs:
     machine: true
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - maven-repo-v1-{{ .Branch }}-
+            - maven-repo-v1-
       - run:
           name: Build Docker Image
           command: docker build --tag shin6949/iter:1.0 .
