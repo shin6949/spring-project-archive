@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  kublr-api: kublr/kublr-api@dev
 jobs:
   build:
     docker:
@@ -43,7 +45,7 @@ jobs:
       - store_test_results:
           path: ./target/surefire-reports
 
-  deploy:
+  push:
     machine:
       true
     working_directory: ~/repo
@@ -52,14 +54,38 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Build Docker Image
-          command: docker build --tag shin6949/iter:1.0 .
-      - run:
           name: Login Docker Hub
           command: echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_ID} --password-stdin
       - run:
+          name: Build Docker Image
+          command: docker build --tag ${DOCKER_HUB_ID}/iter:1.0 .
+      - run:
           name: Push to Docker Hub
-          command: docker push shin6949/iter:1.0
+          command: docker push ${DOCKER_HUB_ID}/iter:1.0
+    deploy:
+      docker:
+        - image: 'cimg/base:stable'
+      step:
+        - kublr-api/auth
+            kublr-endpoint: ${KUBLR_ENDPOINT}
+            kublr-username: ${KUBLR_USERNAME}
+            kublr-password: ${KUBLR_PASSWORD}
+            kublr-token: ${KUBLR_TOKEN}
+        - kublr-api/get-cluster-config
+            kublr-space: ${KUBLR_SPACE}
+            kublr-cluster: ${KUBLR_CLUSTER}
+        - run: |
+            echo "Kubernetes config in '${KUBECONFIG:-}' file:"
+            cat "${KUBECONFIG:-}"
+        - run:
+            name: Setup kubectl
+            command: >-
+              curl
+              https://storage.googleapis.com/kubernetes-release/release/v1.10.7/bin/linux/amd64/kubectl
+              > kubectl && chmod a+x kubectl
+        - run:
+            name: Test kubectl with kubeconfig
+            command: ./kubectl get nodes
 workflows:
   version: 2
   workflow:
@@ -68,7 +94,12 @@ workflows:
       - test:
           requires:
             - build
+      - push:
+          requires:
+            - build
+            - test
       - deploy:
           requires:
             - build
             - test
+            - push
