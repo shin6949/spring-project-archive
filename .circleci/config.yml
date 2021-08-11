@@ -24,7 +24,7 @@ jobs:
           paths:
             - target/
       - store_artifacts:
-          path: ./target
+          path: ./target/iter*.jar
 
   test:
     docker:
@@ -48,13 +48,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ./target
-      - run:
-          name: ls TEST
-          command: |
-            pwd
-            ls -l ./target
-            find . -name "iter-*.jar"
+          at: ./
       - run:
           name: Build Docker Image
           command: docker build --tag shin6949/iter:1.0 .
