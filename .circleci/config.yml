@@ -80,28 +80,24 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore:
-                - kublr-test
+      - build
       - test:
           requires:
             - build
-          filters:
-            branches:
-              ignore:
-                - kublr-test
       - push:
           requires:
             - build
             - test
           filters:
             branches:
-              ignore:
-                - kublr-test
+              only:
+                - master
       - deploy:
           requires:
             - build
             - test
             - push
+          filters:
+            branches:
+              only:
+                - master
