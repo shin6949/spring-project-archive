@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  kublr-api: kublr/kublr-api@1.0.1
+  kubernetes: circleci/kubernetes@0.12.0
 jobs:
   build:
     docker:
@@ -66,39 +66,14 @@ jobs:
     machine:
       true
     steps:
-      - kublr-api/auth:
-          insecure: true
+      - kubernetes/install-kubeconfig:
+          kubeconfig: KUBECONFIG_DATA
       - run:
-          name: Print Kublr API token
-          command: 'echo "KUBLR_TOKEN=${KUBLR_TOKEN:-}"'
-      - kublr-api/call:
-          insecure: true
-          result-file: kublr-version.json
+          name: TEST KUBECTL
+          command: kubectl get pod
       - run:
-          name: Print Kublr API call results stored in an env var
-          command: 'echo "KUBLR_VERSION_JSON=${KUBLR_VERSION_JSON:-}"'
-      - run:
-          name: Print Kublr API call results stored in a file
-          command: cat kublr-version.json
-      - kublr-api/get-cluster-config:
-          kublr-space: KUBLR_SPACE
-          kublr-cluster: KUBLR_CLUSTER
-          insecure: true
-      - run:
-          name: Print KUBECONFIG env vars
-          command: 'echo "KUBECONFIG=${KUBECONFIG:-}"'
-      - run:
-          name: Print Kubernetes config file content
-          command: |
-            echo "Kubernetes config in '${KUBECONFIG:-}' file:"
-            cat "${KUBECONFIG:-}"
-      - kublr-api/get-kubernetes-client:
-          kublr-space: KUBLR_SPACE
-          kublr-cluster: KUBLR_CLUSTER
-          insecure: true
-      - run:
-          name: Run kubectl command
-          command: ./kubectl get nodes
+          name: Restart WAS Deployment
+          command: kubectl rollout restart deployment iter-app
 
 workflows:
   version: 2
