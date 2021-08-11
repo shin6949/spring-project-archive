@@ -100,7 +100,7 @@ workflows:
             branches:
               ignore:
                 - kublr-test
-      - deploy
+      - deploy:
           requires:
             - build
             - test
