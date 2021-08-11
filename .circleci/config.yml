@@ -53,9 +53,8 @@ jobs:
           name: ls TEST
           command: |
             pwd
-            ls -l
-            ls -l /
-            find / -name "iter-*.jar"
+            ls -l ./target
+            find . -name "iter-*.jar"
       - run:
           name: Build Docker Image
           command: docker build --tag shin6949/iter:1.0 .
