@@ -67,10 +67,10 @@ jobs:
       - image: 'cimg/base-stable'
     steps:
       - kublr-api/auth:
-          kublr-endpoint: ${KUBLR_ENDPOINT}
-          kublr-username: ${KUBLR_USERNAME}
-          kublr-password: ${KUBLR_PASSWORD}
-          kublr-token: ${KUBLR_TOKEN}
+          kublr-endpoint: KUBLR_ENDPOINT
+          kublr-username: KUBLR_USERNAME
+          kublr-password: KUBLR_PASSWORD
+          kublr-token: KUBLR_TOKEN
       - run:
           name: Print Kublr API token
           command: 'echo "KUBLR_TOKEN=${KUBLR_TOKEN:-}"'
@@ -84,8 +84,8 @@ jobs:
           name: Print Kublr API call results stored in a file
           command: cat kublr-version.json
       - kublr-api/get-cluster-config:
-          kublr-space: ${KUBLR_SPACE}
-          kublr-cluster: ${KUBLR_CLUSTER}
+          kublr-space: KUBLR_SPACE
+          kublr-cluster: KUBLR_CLUSTER
       - run:
           name: Print KUBECONFIG env vars
           command: 'echo "KUBECONFIG=${KUBECONFIG:-}"'
@@ -95,8 +95,8 @@ jobs:
             echo "Kubernetes config in '${KUBECONFIG:-}' file:"
             cat "${KUBECONFIG:-}"
       - kublr-api/get-kubernetes-client:
-          kublr-space: ${KUBLR_SPACE}
-          kublr-cluster: ${KUBLR_CLUSTER}
+          kublr-space: KUBLR_SPACE
+          kublr-cluster: KUBLR_CLUSTER
       - run:
           name: Run kubectl command
           command: ./kubectl get nodes
