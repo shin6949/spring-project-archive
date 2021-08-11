@@ -101,7 +101,7 @@ workflows:
               ignore:
                 - kublr-test
       - deploy
-#          requires:
-#            - build
-#            - test
-#            - push
+          requires:
+            - build
+            - test
+            - push
