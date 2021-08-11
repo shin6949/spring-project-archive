@@ -66,11 +66,11 @@ jobs:
       docker:
         - image: 'cimg/base:stable'
       step:
-        - kublr-api/auth
-            kublr-endpoint: KUBLR_ENDPOINT
-            kublr-username: KUBLR_USERNAME
-            kublr-password: KUBLR_PASSWORD
-            kublr-token: KUBLR_TOKEN
+        - kublr-api/auth:
+            kublr-endpoint: ${KUBLR_ENDPOINT}
+            kublr-username: ${KUBLR_USERNAME}
+            kublr-password: ${KUBLR_PASSWORD}
+            kublr-token: ${KUBLR_TOKEN}
         - run:
             name: Print Kublr API token
             command: 'echo "KUBLR_TOKEN=${KUBLR_TOKEN:-}"'
@@ -83,20 +83,22 @@ jobs:
         - run:
             name: Print Kublr API call results stored in a file
             command: cat kublr-version.json
-        - kublr-api/get-cluster-config
-            kublr-space: KUBLR_SPACE
-            kublr-cluster: KUBLR_CLUSTER
-        - run: |
-            echo "Kubernetes config in '${KUBECONFIG:-}' file:"
-            cat "${KUBECONFIG:-}"
+        - kublr-api/get-cluster-config:
+            kublr-space: ${KUBLR_SPACE}
+            kublr-cluster: ${KUBLR_CLUSTER}
         - run:
-            name: Setup kubectl
-            command: >-
-              curl
-              https://storage.googleapis.com/kubernetes-release/release/v1.10.7/bin/linux/amd64/kubectl
-              > kubectl && chmod a+x kubectl
+            name: Print KUBECONFIG env vars
+            command: 'echo "KUBECONFIG=${KUBECONFIG:-}"'
         - run:
-            name: Test kubectl with kubeconfig
+            name: Print Kubernetes config file content
+            command: |
+              echo "Kubernetes config in '${KUBECONFIG:-}' file:"
+              cat "${KUBECONFIG:-}"
+        - kublr-api/get-kubernetes-client:
+            kublr-space: ${KUBLR_SPACE}
+            kublr-cluster: ${KUBLR_CLUSTER}
+        - run:
+            name: Run kubectl command
             command: ./kubectl get nodes
 workflows:
   version: 2
