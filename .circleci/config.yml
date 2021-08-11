@@ -67,15 +67,12 @@ jobs:
       true
     steps:
       - kublr-api/auth:
-          kublr-endpoint: KUBLR_ENDPOINT
-          kublr-username: KUBLR_USERNAME
-          kublr-password: KUBLR_PASSWORD
-          kublr-token: KUBLR_TOKEN
+          insecure: true
       - run:
           name: Print Kublr API token
           command: 'echo "KUBLR_TOKEN=${KUBLR_TOKEN:-}"'
       - kublr-api/call:
-          result-env-var: KUBLR_VERSION_JSON
+          insecure: true
           result-file: kublr-version.json
       - run:
           name: Print Kublr API call results stored in an env var
@@ -86,6 +83,7 @@ jobs:
       - kublr-api/get-cluster-config:
           kublr-space: KUBLR_SPACE
           kublr-cluster: KUBLR_CLUSTER
+          insecure: true
       - run:
           name: Print KUBECONFIG env vars
           command: 'echo "KUBECONFIG=${KUBECONFIG:-}"'
@@ -97,6 +95,7 @@ jobs:
       - kublr-api/get-kubernetes-client:
           kublr-space: KUBLR_SPACE
           kublr-cluster: KUBLR_CLUSTER
+          insecure: true
       - run:
           name: Run kubectl command
           command: ./kubectl get nodes
@@ -105,7 +104,11 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore:
+                - kublr-test
       - test:
           requires:
             - build
