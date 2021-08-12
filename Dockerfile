@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11.0.11-jre-slim-buster
 
 ADD ./target/iter-*.jar /usr/src/myapp/iter.jar
 
