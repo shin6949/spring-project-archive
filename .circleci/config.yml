@@ -75,7 +75,7 @@ jobs:
           command: docker push ${DOCKER_HUB_ID}/iter:1.0
   deploy:
     docker:
-      - image: shin6949/kubectl
+      - image: shin6949/kubectl:alpine
     steps:
       - run:
           name: Set KUBECONFIG
