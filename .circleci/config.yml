@@ -1,6 +1,4 @@
 version: 2
-#orbs:
-#  kubernetes: circleci/kubernetes@0.12.0
 jobs:
   build:
     docker:
@@ -21,6 +19,13 @@ jobs:
           paths:
             - ~/.m2
           key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+      - run:
+          name: Delete Build Cache
+          command: |
+            cd ./target
+            rm -rf `ls | grep -v .jar`
+            rm -rf `ls | grep .original`
+            cd ..
       - persist_to_workspace:
           root: ./
           paths:
@@ -65,11 +70,7 @@ jobs:
   deploy:
     docker:
       - image: shin6949/kubectl
-#    machine:
-#      true
     steps:
-#      - kubernetes/install-kubeconfig:
-#          kubeconfig: KUBECONFIG_DATA
       - run:
           name: Set KUBECONFIG
           command: |
