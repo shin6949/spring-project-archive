@@ -1,6 +1,6 @@
-version: 2.1
-orbs:
-  kubernetes: circleci/kubernetes@0.12.0
+version: 2
+#orbs:
+#  kubernetes: circleci/kubernetes@0.12.0
 jobs:
   build:
     docker:
@@ -63,12 +63,20 @@ jobs:
           name: Push to Docker Hub
           command: docker push ${DOCKER_HUB_ID}/iter:1.0
   deploy:
-    machine:
-      true
+    docker:
+      - image: shin6949/kubectl
+#    machine:
+#      true
     steps:
-      - kubernetes/install-kubectl
-      - kubernetes/install-kubeconfig:
-          kubeconfig: KUBECONFIG_DATA
+#      - kubernetes/install-kubeconfig:
+#          kubeconfig: KUBECONFIG_DATA
+      - run:
+          name: Set KUBECONFIG
+          command: |
+            if [ -n "${KUBECONFIG_DATA}" ]; then
+              mkdir -p $HOME/.kube
+              echo -n "${KUBECONFIG_DATA}" | base64 --decode > $HOME/.kube/config
+            fi
       - run:
           name: Restart WAS Deployment
           command: kubectl rollout restart deployment iter-app
