@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: shin6949/mavenwithgit:alpine
+      - image: shin6949/mavenwithgit:debian
         auth:
           username: ${DOCKER_HUB_ID}
           password: ${DOCKER_HUB_PASSWORD}
@@ -42,7 +42,7 @@ jobs:
 
   test:
     docker:
-      - image: shin6949/mavenwithgit:alpine
+      - image: shin6949/mavenwithgit:debian
         auth:
           username: ${DOCKER_HUB_ID}
           password: ${DOCKER_HUB_PASSWORD}
