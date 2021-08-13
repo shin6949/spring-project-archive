@@ -1,7 +1,12 @@
 stages:
-  - maven
-  - azure
-  - docker
+  - build
+  - test
+  - push
+  - deploy
+#build:
+#  stage: build
+#  before_script:
+#    -
 
 test:
   stage: maven
