@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
@@ -26,7 +26,6 @@ jobs:
         with:
           path: |
             ~/.m2/repository
-            ./target
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -34,8 +33,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -DskipTests
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: iter-${{job.id}}
+          path: ./target/iter-*.jar
+
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
@@ -52,7 +56,6 @@ jobs:
         with:
           path: |
             ~/.m2/repository
-            ./target
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -64,4 +67,4 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: ./target/test-results/**/*.xml
+          files: ./target/surefire-reports/*.xml
