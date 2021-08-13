@@ -60,7 +60,7 @@ jobs:
   push:
     machine:
       true
-    resource_class: docker/my-resource-class
+#    resource_class: docker/my-resource-class
     working_directory: ~/repo
     steps:
       - attach_workspace:
