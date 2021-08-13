@@ -66,8 +66,8 @@ jobs:
           name: Login Docker Hub
           command: echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_ID} --password-stdin
         # Docker Layer Caching은 유료 기능이라 제외
-      - setup_remote_docker:
-          docker_layer_caching: true
+#      - setup_remote_docker:
+#          docker_layer_caching: true
       - run:
           name: Build Docker Image
           command: docker build --tag ${DOCKER_HUB_ID}/iter:1.0 .
