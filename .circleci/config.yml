@@ -75,10 +75,10 @@ jobs:
           name: Push to Docker Hub
           command: docker push ${DOCKER_HUB_ID}/iter:1.0
   deploy:
-    machine:
-      true
-#    docker:
-#      - image: shin6949/kubectl:alpine
+#    machine:
+#      true
+    docker:
+      - image: shin6949/kubectl:alpine
     resource_class: docker/my-resource-class
     steps:
       - run:
