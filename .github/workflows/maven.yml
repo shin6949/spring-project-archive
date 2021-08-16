@@ -88,7 +88,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: iter-${{job.id}}
-          path: ./target/
+          path: /home/runner/work/circleci_test/circleci_test/target/
 
       - name: Display structure of downloaded files
         run: |
