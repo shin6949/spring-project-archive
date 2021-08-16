@@ -41,6 +41,7 @@ jobs:
 
   test:
     runs-on: ubuntu-18.04
+    needs: [ build ]
 
     steps:
       - name: Checkout
@@ -90,8 +91,7 @@ jobs:
           path: ./target/
 
       - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: ./target/
+        run: ls -R ./target
 
       - name: Build and push
         id: docker_build
