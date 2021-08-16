@@ -105,9 +105,7 @@ jobs:
 
     steps:
       - name: Set KUBECONFIG
-        run: |
-          mkdir -p $HOME/.kube
-          echo -n "${KUBECONFIG_DATA}" | base64 --decode > $HOME/.kube/config
+        run: mkdir -p $HOME/.kube && echo -n "${KUBECONFIG_DATA}" | base64 --decode > $HOME/.kube/config
 
       - name: Restart WAS Deployment
         run: kubectl rollout restart deployment iter-app
