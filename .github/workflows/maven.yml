@@ -91,7 +91,9 @@ jobs:
           path: ./target/
 
       - name: Display structure of downloaded files
-        run: ls -R
+        run: |
+        pwd
+        ls -R
 
       - name: Build and push
         id: docker_build
