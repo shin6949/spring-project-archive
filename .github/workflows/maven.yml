@@ -93,10 +93,10 @@ jobs:
           ls -R
 
       - name: Docker Image Build
-        run: docker build -t ${DOCKER_HUB_ID}/iter:1.0 .
+        run: docker build -t ${{ secrets.DOCKER_HUB_ID }}/iter:1.0 .
 
       - name: Image Push to DockerHub
-        run: docker push ${DOCKER_HUB_ID}/iter:1.0
+        run: docker push ${{ secrets.DOCKER_HUB_ID }}/iter:1.0
 
   deploy-to-k8s:
     runs-on: ubuntu-18.04
