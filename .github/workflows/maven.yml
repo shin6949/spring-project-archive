@@ -36,7 +36,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: iter-${{job.id}}
+          name: iter-1.0.jar
           path: ./target/iter-*.jar
 
   test:
@@ -87,8 +87,8 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: iter-${{job.id}}
-          path: /home/runner/work/circleci_test/circleci_test/target/
+          name: iter-1.0.jar
+          path: /home/runner/work/circleci_test/circleci_test/target/iter-1.0.jar
 
       - name: Display structure of downloaded files
         run: |
