@@ -88,7 +88,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: iter-1.0.jar
-          path: /home/runner/work/circleci_test/circleci_test/target/iter-1.0.jar
+#          path: ./target/iter-*.jar
 
       - name: Display structure of downloaded files
         run: |
