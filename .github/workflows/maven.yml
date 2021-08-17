@@ -7,11 +7,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
-    container: circleci/openjdk:11-jdk
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.2.0
+        with:
+          java-version: 11
+          distribution: 'adopt'
+          architecture: x64
 
       - name: Load Maven Cache
         uses: actions/cache@v2
@@ -32,12 +38,18 @@ jobs:
 
   test:
     runs-on: ubuntu-18.04
-    container: circleci/openjdk:11-jdk
     needs: [ build ]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.2.0
+        with:
+          java-version: 11
+          distribution: 'adopt'
+          architecture: x64
 
       - name: Load Maven Cache
         uses: actions/cache@v2
