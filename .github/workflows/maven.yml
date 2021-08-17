@@ -18,12 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v2.2.0
-        with:
-          java-version: 11
-          distribution: 'adopt'
-          architecture: x64
+#      - name: Setup Java JDK
+#        uses: actions/setup-java@v2.2.0
+#        with:
+#          java-version: 11
+#          distribution: 'adopt'
+#          architecture: x64
 
       - name: Load Maven Cache
         uses: actions/cache@v2
@@ -51,17 +51,17 @@ jobs:
       - name: Setup The Permission
         run: |
           pwd
-          chown -R circleci:circleci /__w/circleci_test/
+          sudo chown -R circleci:circleci /__w/circleci_test/
 
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v2.2.0
-        with:
-          java-version: 11
-          distribution: 'adopt'
-          architecture: x64
+#      - name: Setup Java JDK
+#        uses: actions/setup-java@v2.2.0
+#        with:
+#          java-version: 11
+#          distribution: 'adopt'
+#          architecture: x64
 
       - name: Load Maven Cache
         uses: actions/cache@v2
