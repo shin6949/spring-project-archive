@@ -18,6 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Get JDK Version
+        run: java --version
+
 #      - name: Setup Java JDK
 #        uses: actions/setup-java@v2.2.0
 #        with:
