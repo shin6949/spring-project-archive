@@ -59,6 +59,15 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Test with Maven
         run: mvn test
+        env:
+          WEBAPP_PREFIX: ""
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          FACEBOOK_CLIENT_ID: ${{ secrets.FACEBOOK_CLIENT_ID }}
+          FACEBOOK_CLIENT_SECRET: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
+          COS_SECRET: ${{ secerts.COS_SECRET }}
+          AZURE_CONNECT_STRING: ${{ secrets.AZURE_CONNECT_STRING }}
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
