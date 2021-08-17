@@ -13,7 +13,7 @@ jobs:
       - name: Setup The Permission
         run: |
           pwd
-          sudo chown -R $USER:$USER /__w/circleci_test/circleci_test
+          sudo chown -R circleci:circleci /__w/circleci_test/circleci_test
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
       - name: Setup The Permission
         run: |
           pwd
-          sudo chown -R $USER:$USER /__w/circleci_test/circleci_test
+          chown -R circleci:circleci /__w/circleci_test/
 
       - name: Checkout
         uses: actions/checkout@v2
