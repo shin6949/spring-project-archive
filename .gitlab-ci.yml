@@ -13,8 +13,11 @@ test:
   before_script:
     - mvn clean
   script:
-    - mvn compile
     - mvn test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - m2/repository
 
 build_and_run:
   stage: docker
