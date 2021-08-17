@@ -1,4 +1,4 @@
-FROM openjdk:11.0.11-jre-slim-buster
+FROM circleci/openjdk:11-jdk
 
 ADD ./target/iter-*.jar /usr/src/myapp/iter.jar
 
