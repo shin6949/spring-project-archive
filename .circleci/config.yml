@@ -3,9 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:11-jdk
-        auth:
-          username: ${DOCKER_HUB_ID}
-          password: ${DOCKER_HUB_PASSWORD}
     working_directory: ~/repo
 
     steps:
@@ -40,9 +37,6 @@ jobs:
   test:
     docker:
       - image: circleci/openjdk:11-jdk
-        auth:
-          username: ${DOCKER_HUB_ID}
-          password: ${DOCKER_HUB_PASSWORD}
     working_directory: ~/repo
     steps:
       - checkout
@@ -60,6 +54,7 @@ jobs:
   push:
     machine:
       true
+#    resource_class: test/my-resource-class
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -68,21 +63,21 @@ jobs:
           name: Load Dockerfile
           command: mv ./target/Dockerfile ./Dockerfile
       - run:
-          name: Login Docker Hub
-          command: echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_ID} --password-stdin
+          name: Login To Container Registry
+          command: echo ${REGISTRY_PASSWORD} | docker login ${REGISTRY_URL} -u ${REGISTRY_ID} --password-stdin
 
       - run:
           name: Build Docker Image
-          command: docker build --tag ${DOCKER_HUB_ID}/iter:1.0 .
+          command: docker build --tag ${REGISTRY_URL}/iter:1.0 .
       - run:
-          name: Push to Docker Hub
-          command: docker push ${DOCKER_HUB_ID}/iter:1.0
+          name: Push to Container Registry
+          command: docker push ${REGISTRY_URL}/iter:1.0
   deploy:
     docker:
-      - image: shin6949/kubectl:alpine
+      - image: ${REGISTRY_URL}/kubectl:alpine
         auth:
-          username: ${DOCKER_HUB_ID}
-          password: ${DOCKER_HUB_PASSWORD}
+          username: ${REGISTRY_ID}
+          password: ${REGISTRY_PASSWORD}
     steps:
       - run:
           name: Set KUBECONFIG
