@@ -9,9 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserProfileImageRespDto {
+public class UserProfilePostRespDto {
 	private int id;
 	private String imageUrl;
 	private int likeCount;
 	private int commentCount;
+
+	public String getImageUrl() {
+		final String blogStorageUrl = System.getenv("AZURE_BLOB_URL");
+
+		return blogStorageUrl + "/photo/" + imageUrl;
+	}
 }

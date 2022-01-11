@@ -1,20 +1,18 @@
 package com.cos.iter.service;
 
-import com.cos.iter.domain.comment.Comment;
 import com.cos.iter.domain.image.Image;
 import com.cos.iter.domain.image.ImageRepository;
-import com.cos.iter.domain.like.Likes;
+import com.cos.iter.domain.post.Post;
+import com.cos.iter.domain.post.PostRepository;
 import com.cos.iter.domain.tag.Tag;
 import com.cos.iter.domain.tag.TagRepository;
-import com.cos.iter.domain.user.User;
-import com.cos.iter.domain.user.UserRepository;
-import com.cos.iter.util.Logging;
-import com.cos.iter.util.Utils;
+import com.cos.iter.util.TagParser;
 import com.cos.iter.web.dto.ImageReqDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,68 +23,41 @@ import java.util.List;
 public class ImageService {
 	private final ImageRepository imageRepository;
 	private final TagRepository tagRepository;
-	private final UserRepository userRepository;
 	private final AzureService azureService;
-	private final Logging logging;
-	
-	@Transactional(readOnly = true)
-	public List<Image> feedPhoto(int loginUserId, String tag){
-		List<Image> images = null;
-		if(tag == null || tag.equals("")) {
-			images = imageRepository.mFeeds(loginUserId);
-		} else {
-			images = imageRepository.mFeeds(tag);
-		}
-
-		log.info(logging.getClassName() + " / " + logging.getMethodName());
-		for (Image image : images) {
-			image.setLikeCount(image.getLikes().size());
-			log.info(image.getCreateDateString());
-			
-			// doLike 상태 여부 등록
-			for (Likes like : image.getLikes()) {
-				if(like.getUser().getId() == loginUserId) {
-					image.setLikeState(true);
-				}
-			}
-			// 댓글 주인 여부 등록
-			for (Comment comment : image.getComments()) {
-				if(comment.getUser().getId() == loginUserId) {
-					comment.setCommentHost(true);
-				}
-			}
-		}
-
-		return images;
-	}
-	
-	@Transactional(readOnly = true)
-	public List<Image> popularPhoto(int loginUserId) {
-		return imageRepository.mNonFollowImage(loginUserId);
-	}
+	private final PostRepository postRepository;
+	private final TagParser tagParser;
 
 	@Transactional
-	public void photoUpload(ImageReqDto imageReqDto, int userId) {
-		User userEntity = userRepository.findById(userId).
-				orElseThrow(null);
+	public void photoUploadToCloud(ImageReqDto imageReqDto, int postId) {
+		final Post postEntity = postRepository.findById(postId).orElseThrow(null);
 
-		String imageFilename = "";
+		for(short i = 0; i < imageReqDto.getFile().size(); i++) {
+			try {
+				final String imageFilename = azureService.uploadToCloudAndReturnFileName(imageReqDto.getFile().get(i), "photo");
 
-		try {
-			imageFilename = azureService.uploadToCloudAndReturnFileName(imageReqDto.getFile(), "photo");
-		} catch (IOException e) {
-			e.printStackTrace();
+				Image image = Image.builder()
+						.post(postEntity)
+						.latitude(imageReqDto.getLatitude().get(i))
+						.longitude(imageReqDto.getLongitude().get(i))
+						.locationName(imageReqDto.getLocationName().get(i))
+						.roadAddress(imageReqDto.getRoadAddress().get(i))
+						.kakaoMapUrl(imageReqDto.getKakaoMapUrl().get(i))
+						.sequence(i)
+						.url(imageFilename)
+						.build();
+
+				imageRepository.save(image);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
-		// 1. Image 저장
-		Image image = imageReqDto.toEntity(imageFilename, userEntity);
-		Image imageEntity = imageRepository.save(image);
-		
-		// 2. Tag 저장
-		List<String> tagNames = Utils.tagParse(imageReqDto.getTags());
+		// Tag 저장 -> Tag는 Post에 종속되어 있으므로 한 번만 등록하면 됨.
+		List<String> tagNames = tagParser.tagParse(imageReqDto.getContent());
+		log.info("tag: " + tagNames);
 		for (String name : tagNames) {
 			Tag tag = Tag.builder()
-					.image(imageEntity)
+					.post(postEntity)
 					.name(name)
 					.build();
 			tagRepository.save(tag);
