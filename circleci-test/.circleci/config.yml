@@ -1,0 +1,117 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - maven-repo-v1-{{ .Branch }}-
+            - maven-repo-v1-
+      - run:
+          name: Build the Package
+          command: mvn package -DskipTests
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+      - run:
+          name: Delete Build Cache
+          command: |
+            cd ./target
+            rm -rf `ls | grep -v .jar`
+            rm -rf `ls | grep .original`
+            cp ../Dockerfile ./
+            cd ..
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - target/
+      - store_artifacts:
+          path: ./target
+
+  test:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - maven-repo-v1-{{ .Branch }}-
+            - maven-repo-v1-
+      - run:
+          name: Run Maven Test
+          command: mvn test
+      - store_test_results:
+          path: ./target/surefire-reports
+
+  push:
+    machine:
+      true
+#    resource_class: test/my-resource-class
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Load Dockerfile
+          command: mv ./target/Dockerfile ./Dockerfile
+      - run:
+          name: Login To Container Registry
+          command: echo ${REGISTRY_PASSWORD} | docker login ${REGISTRY_URL} -u ${REGISTRY_ID} --password-stdin
+
+      - run:
+          name: Build Docker Image
+          command: docker build --tag ${REGISTRY_URL}/iter:1.0 .
+      - run:
+          name: Push to Container Registry
+          command: docker push ${REGISTRY_URL}/iter:1.0
+  deploy:
+    docker:
+      - image: ${REGISTRY_URL}/kubectl:alpine
+        auth:
+          username: ${REGISTRY_ID}
+          password: ${REGISTRY_PASSWORD}
+    steps:
+      - run:
+          name: Set KUBECONFIG
+          command: |
+            if [ -n "${KUBECONFIG_DATA}" ]; then
+              mkdir -p $HOME/.kube
+              echo -n "${KUBECONFIG_DATA}" | base64 --decode > $HOME/.kube/config
+            fi
+      - run:
+          name: Restart WAS Deployment
+          command: kubectl rollout restart deployment iter-app
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - push:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
+          requires:
+            - build
+            - test
+            - push
+          filters:
+            branches:
+              only:
+                - master
