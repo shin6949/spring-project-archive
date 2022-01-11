@@ -7,7 +7,7 @@
     <title>Iter</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" href="{{storageUrl}}/static/favicon.png">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/image-upload.css">
     <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -20,14 +20,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div style="text-align: center">
 <form>
     <input type="text" id="placename" placeholder="검색어를 입력하세요." value="목포 시청">
     <input width="100px" type='button' onclick="searchLocation()" value="검색">
 </form>
+</div>
+<div id="map" style="width:700px; height:550px;margin:0 auto;"></div>
 
-<div id="map" style="width:500px; height:350px;"></div>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c750f0b1b6535c70353213552bd67884&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b29e5f1a06b5ed964627df8f7e9c4b9&libraries=services"></script>
 <script>
     // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
     var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -81,7 +82,8 @@
             infowindow.setContent(
                     '<div style="padding:5px; font-size:12px;">'
                     + place.place_name +
-                    '<button onclick=\"location.href=\'/image/uploadForm?location=' + place.place_name + '\'' +
+                    '<button onclick=\"location.href=\'/image/uploadForm?location=' + place.place_name + '&lot=' + place.x
+                    + '&lat=' + place.y + '\'' +
                     '\" data-lot=\"' + place.x + '\" data-lat=\"' + place.y + '\"> ' +
                     '선택' +
                     '</button>' +
@@ -113,6 +115,8 @@
         console.log($(".modal-body #location").value);
     }
 </script>
+<div style="text-align: center">
 {{>layout/footer}}
+</div>
 </body>
 </html>
