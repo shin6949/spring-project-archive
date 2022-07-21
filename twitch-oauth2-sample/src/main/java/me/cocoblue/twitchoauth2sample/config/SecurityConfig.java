@@ -19,11 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // In-Memory DB Console 예외 처리
         return (web) -> web.ignoring().antMatchers("/h2-console/**");
